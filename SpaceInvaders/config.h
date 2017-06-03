@@ -19,7 +19,7 @@ private:
     void processConfigSizeLine(QString l);
     void processInstructions(QStringList& instructs, QStringList& copy);
 
-    void processSwarm(QTextStream& in);
+//    void processSwarm(QTextStream& in);
     void processPairs(QStringList list, QList<QPair<int, int>>& positions);
     void processMoves(QStringList& move, QStringList& list);
     void saveSwarm(QString type, QList<QPair<int, int>> positions, QStringList move, int shoot);
@@ -52,6 +52,9 @@ protected:
     Config();
 
 public:
+    // testing
+    void processSwarm(QTextStream& in);
+
     // AS THE CONFIG GIVES INPUT, THE FILE IS READ TO THEN SET ATTRIBUTES.
     // GETTERS
     static Config* getInstance();

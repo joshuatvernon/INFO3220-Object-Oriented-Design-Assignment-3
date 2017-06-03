@@ -182,6 +182,15 @@ void GameDialog::nextFrame() {
                 c->removeManualInstruction("Shoot");
                 this->shipFiringSound.play();
             }
+            if (ins.contains("Shift")) {
+                std::cout << "shift!!!" << std::endl;
+
+                QFile c_file("config.txt");
+                c_file.open(QIODevice::ReadOnly);
+
+                QTextStream in(&c_file);
+                c->processSwarm(in);
+            }
         }
 
         updateBullets();
