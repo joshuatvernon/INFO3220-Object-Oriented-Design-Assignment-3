@@ -67,6 +67,8 @@ Config::Config() {
         processShip(in);
     }
 
+    levelCount = 0;
+
     // set the scaled width and height!
     this->SCALEDWIDTH = WIDTH * this->scale;
     this->SCALEDHEIGHT = HEIGHT * this->scale;
@@ -76,9 +78,11 @@ Config::Config() {
 
 // loops through all the swarm info and edits positions.
 void Config::scalePositions() {
-    for (SwarmInfo& s : swarmList) {
-        for (QPair<int, int> pos : s.positions) {
-            pos = qMakePair(pos.first * this->scale, pos.second * this->scale);
+    for (QList<SwarmInfo>& swarmList : swarmsList) {
+        for (SwarmInfo& s : swarmList) {
+            for (QPair<int, int> pos : s.positions) {
+                pos = qMakePair(pos.first * this->scale, pos.second * this->scale);
+            }
         }
     }
 }
@@ -206,8 +210,8 @@ void Config::processSwarm(QTextStream& in) {
     int shoot = defaultAlienShoot;
 
     while (!in.atEnd()) {
-        QString l = in.readLine();
-        l = l.trimmed();
+        QString l = in.readLine().trimmed();
+        std::cout << l.toStdString() << std::endl;
         // make some default values...
         if (l.isEmpty()) {
             continue;
@@ -292,10 +296,12 @@ void Config::processPairs(QStringList list, QList<QPair<int, int>>& positions) {
 
 void Config::saveSwarm(
         QString type, QList<QPair<int, int>> positions, QStringList move, int shoot) {
+    QList<SwarmInfo> swarmList = {};
     // only save swarm if there is at least 1 position!
     if (positions.size() > 0) {
         swarmList.append(SwarmInfo(type, positions, move, shoot));
     }
+    swarmsList.append(swarmList);
 }
 
 // PROCESS CONFIG SIZE CHOICES
@@ -338,7 +344,7 @@ int Config::get_frames() {
 }
 
 QList<SwarmInfo> Config::getSwarmList() {
-    return this->swarmList;
+    return this->swarmsList.at(this->levelCount);
 }
 
 int Config::get_SCALEDWIDTH() {
@@ -347,6 +353,10 @@ int Config::get_SCALEDWIDTH() {
 
 int Config::get_SCALEDHEIGHT() {
     return this->SCALEDHEIGHT;
+}
+
+void Config::nextLevel() {
+    this->levelCount++;
 }
 
 }  // end namespace

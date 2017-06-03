@@ -154,9 +154,14 @@ void GameDialog::showScore() {
 
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
-
     if (!paused) {
+        // Check if all aliens are killed -- if true, update level
+        if (swarms->getAliens().size() == 0) {
+            c->nextLevel();
+            generateAliens(c->getSwarmList());
+        }
         if (!manualControl) {
+            // Read ship controls from config
             QStringList instruct = c->get_instructs();
             QString ins = instruct[next_instruct];
             next_instruct++;
@@ -170,6 +175,7 @@ void GameDialog::nextFrame() {
                 this->shipFiringSound.play();
             }
         } else {
+            // Read ship controls from key commands
             QSet<QString> ins = c->getManualInstructions();
             if (ins.contains("Left")) {
                 ship->move_left();
@@ -181,15 +187,6 @@ void GameDialog::nextFrame() {
                 bullets.push_back(this->ship->shoot());
                 c->removeManualInstruction("Shoot");
                 this->shipFiringSound.play();
-            }
-            if (ins.contains("Shift")) {
-                std::cout << "shift!!!" << std::endl;
-
-                QFile c_file("config.txt");
-                c_file.open(QIODevice::ReadOnly);
-
-                QTextStream in(&c_file);
-                c->processSwarm(in);
             }
         }
 
@@ -225,13 +222,10 @@ void GameDialog::updateBullets()
         } else if (score == -1) {
             // DEAD SHIP!
             close();
-        } else
-        {
+        } else {
             b->move();// we move at the end so that we can see collisions before the game ends
         }
         gameScore += score;
-
-
     }
 }
 

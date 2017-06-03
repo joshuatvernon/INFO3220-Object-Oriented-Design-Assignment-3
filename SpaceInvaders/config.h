@@ -35,7 +35,9 @@ private:
     int SCALEDHEIGHT;
 
     // Swarm Info Map
-    QList<SwarmInfo> swarmList = {};
+    QList<QList<SwarmInfo>> swarmsList = {};
+    QList<SwarmInfo> currentSwarmList = {};
+    int levelCount;
 
     // default Alien values
     QStringList alienTypes;
@@ -67,6 +69,10 @@ public:
     void removeManualInstruction(QString ins);
     void clearManualInstructions();
 
+    // Support for levels
+    void nextLevel();
+
+    // Getters
     double get_scale();
     int get_startpos();
     QStringList get_instructs();
