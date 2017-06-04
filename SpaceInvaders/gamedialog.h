@@ -39,9 +39,11 @@ protected:
     void keyReleaseEvent(QKeyEvent* event);
     int level;
 
-    // Mouse tracking
+    // Mouse control
     void mouseMoveEvent(QMouseEvent *event);
     bool mouseControl;
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
     // about the canvas
     int frames;
@@ -58,7 +60,12 @@ protected:
     // pausing & menu
     bool manualControl;
     bool paused;
-    void pauseStart();
+
+    void setSpeed(QString speed);
+
+    void pressControls();
+    void pressLevels();
+
     Menu* menu;
     Config* c;
 
@@ -68,5 +75,11 @@ public slots:
     void nextFrame();
     // menus
     void showScore();
+    void toggleShowSpeed();
+    void pressSlow();
+    void pressNormal();
+    void pressFast();
+    void pressChaos();
+    void pauseStart();
 };
 }

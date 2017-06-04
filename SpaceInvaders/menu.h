@@ -10,15 +10,35 @@ public:
     ~Menu();
     void displayMenu(bool paused);
     void openScore();
+    void toggleDisplaySpeeds();
+    void toggleDisplayControls();
+    void toggleDisplayLevels();
 
 private:
     void makeButtons(QWidget* parent, QString name);
     void closeButtons();  // if any buttons are left open, close them
     int& gameScore;
-    QPushButton* score;
 
+    // Buttons
+    QPushButton* score;
+    QPushButton* speed;
+    QPushButton* slow;
+    QPushButton* normal;
+    QPushButton* fast;
+    QPushButton* chaos;
+    QPushButton* controls;
+    QPushButton* levels;
+    QPushButton* menu;
+    QPushButton* resume;
+
+    // Labels
     QLabel* playerName;
     QLabel* playerScoreLabel;
+    QLabel* topScoreNameLabel;
+    QLabel* topScoreLabel;
+    QLabel* controlsLabel;
+
+    // Methods
     void revealPlayerScore(bool open);
 };
 }

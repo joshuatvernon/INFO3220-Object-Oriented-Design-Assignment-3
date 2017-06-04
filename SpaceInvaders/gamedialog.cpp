@@ -97,18 +97,24 @@ void GameDialog::pauseStart() {
     }
 }
 
+void GameDialog::setSpeed(QString speed) {
+    if (QString::compare(speed, "slow", Qt::CaseInsensitive) == 0) {
+        this->frames = 60;
+    } else if (QString::compare(speed, "normal", Qt::CaseInsensitive) == 0) {
+        this->frames = 40;
+    } else if (QString::compare(speed, "fast", Qt::CaseInsensitive) == 0) {
+        this->frames = 20;
+    } else if (QString::compare(speed, "chaos", Qt::CaseInsensitive) == 0) {
+        this->frames = 10;
+    }
+}
+
 void GameDialog::keyPressEvent(QKeyEvent* event) {
     if (!manualControl) {
         if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down || event->key() == Qt::Key_Space) {
             // A control key has been pressed turn on manual control
-            if (mouseControl) {
-                if (event->key() != Qt::Key_Space) {
-                    manualControl = true;
-                    mouseControl = false;
-                }
-            } else {
-                manualControl = true;
-            }
+            manualControl = true;
+            mouseControl = false;
         }
     }
     if (event->key() == Qt::Key_P) {
@@ -161,20 +167,62 @@ void GameDialog::keyReleaseEvent(QKeyEvent *event) {
 }
 
 void GameDialog::mouseMoveEvent(QMouseEvent *event) {
-    if (!mouseControl) {
-        manualControl = false;
-        mouseControl = true;
-    } else {
-        QPoint pos = event->pos();
-        ship->set_x(pos.x());
-        ship->set_y(pos.y());
+    if (!paused) {
+        if (!mouseControl) {
+            manualControl = false;
+            mouseControl = true;
+        } else {
+            QPoint pos = event->pos();
+            ship->set_x(pos.x());
+            ship->set_y(pos.y());
+        }
     }
+}
+
+void GameDialog::mousePressEvent(QMouseEvent *event) {
+    c->addManualInstruction("Shoot");
+}
+
+void GameDialog::mouseReleaseEvent(QMouseEvent *event) {
+    c->removeManualInstruction("Shoot");
 }
 
 // shows this game score
 void GameDialog::showScore() {
     // in future, implement 'score list' in menu.
     menu->openScore();
+}
+
+void GameDialog::toggleShowSpeed() {
+    menu->toggleDisplaySpeeds();
+}
+
+void GameDialog::pressSlow() {
+    menu->toggleDisplaySpeeds();
+    setSpeed("slow");
+}
+
+void GameDialog::pressNormal() {
+    menu->toggleDisplaySpeeds();
+    setSpeed("normal");
+}
+
+void GameDialog::pressFast() {
+    menu->toggleDisplaySpeeds();
+    setSpeed("fast");
+}
+
+void GameDialog::pressChaos() {
+    menu->toggleDisplaySpeeds();
+    setSpeed("chaos");
+}
+
+void GameDialog::pressControls() {
+    menu->toggleDisplayControls();
+}
+
+void GameDialog::pressLevels() {
+    menu->toggleDisplayLevels();
 }
 
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
