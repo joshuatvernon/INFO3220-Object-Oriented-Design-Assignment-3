@@ -71,13 +71,19 @@ ShipState* Ship::getHyperState() {
     return this->hyperState;
 }
 
+ShipState* Ship::getDeadState() {
+    return this->deadState;
+}
+
 QString Ship::getCurrentState() {
     if (this->state == normalState) {
         return "Normal";
     } else if (this->state == frozenState) {
         return "Frozen";
-    } else {
+    } else if (this->state == hyperState) {
         return "Hyper";
+    } else {
+        return "Dead";
     }
 }
 
@@ -85,27 +91,29 @@ QString Ship::getCurrentState() {
 
 void Ship::setState(ShipState* newState) {
     state = (ShipState*) newState;
+    QPixmap ship;
+    // Change the image to reflect the new state
     if (getCurrentState() == "Frozen") {
-        QPixmap ship;
         ship.load(":/Images/frozenship.png");
-        set_image(ship.scaledToWidth(ship.width() * get_scale()));
     } else if (getCurrentState() == "Normal") {
-        QPixmap ship;
         ship.load(":/Images/ship.png");
-        set_image(ship.scaledToWidth(ship.width() * get_scale()));
-    } else {
-        QPixmap ship;
+    } else if (getCurrentState() == "Hyper") {
         ship.load(":/Images/hypership.png");
-        set_image(ship.scaledToWidth(ship.width() * get_scale()));
+    } else {
+        ship.load(":/Images/deadship.png");
     }
+    set_image(ship.scaledToWidth(ship.width() * get_scale()));
+    // Reset the boundaries based upon the new image
     boundaryX = Config::getInstance()->get_SCALEDWIDTH() - this->get_image().width();
     boundaryY = Config::getInstance()->get_SCALEDHEIGHT() - this->get_image().height();
 }
 
 Ship::~Ship() {
+    // Delete states but not current state as its just a pointer to one of these states
     delete normalState;
     delete frozenState;
     delete hyperState;
+    delete deadState;
 }
 
 }

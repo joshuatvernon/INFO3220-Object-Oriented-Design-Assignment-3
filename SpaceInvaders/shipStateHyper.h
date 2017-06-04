@@ -26,4 +26,4 @@ public:
 };
 }
 
-#endif // SHIPSTATEHYPERL_H
+#endif // SHIPSTATEHYPER_H

@@ -64,7 +64,8 @@ SOURCES       = ../SpaceInvaders/main.cpp \
 		../SpaceInvaders/menu.cpp \
 		../SpaceInvaders/shipStateFrozen.cpp \
 		../SpaceInvaders/shipStateNormal.cpp \
-		../SpaceInvaders/shipStateHyper.cpp qrc_resources.cpp \
+		../SpaceInvaders/shipStateHyper.cpp \
+		../SpaceInvaders/shipStateDead.cpp qrc_resources.cpp \
 		moc_gamedialog.cpp
 OBJECTS       = main.o \
 		base.o \
@@ -83,6 +84,7 @@ OBJECTS       = main.o \
 		shipStateFrozen.o \
 		shipStateNormal.o \
 		shipStateHyper.o \
+		shipStateDead.o \
 		qrc_resources.o \
 		moc_gamedialog.o
 DIST          = /Users/joshuatvernon/Qt5.8.0/5.8/clang_64/mkspecs/features/spec_pre.prf \
@@ -279,7 +281,8 @@ DIST          = /Users/joshuatvernon/Qt5.8.0/5.8/clang_64/mkspecs/features/spec_
 		../SpaceInvaders/shipState.h \
 		../SpaceInvaders/shipStateFrozen.h \
 		../SpaceInvaders/shipStateNormal.h \
-		../SpaceInvaders/shipStateHyper.h ../SpaceInvaders/main.cpp \
+		../SpaceInvaders/shipStateHyper.h \
+		../SpaceInvaders/shipStateDead.h ../SpaceInvaders/main.cpp \
 		../SpaceInvaders/base.cpp \
 		../SpaceInvaders/ship.cpp \
 		../SpaceInvaders/gamedialog.cpp \
@@ -295,7 +298,8 @@ DIST          = /Users/joshuatvernon/Qt5.8.0/5.8/clang_64/mkspecs/features/spec_
 		../SpaceInvaders/menu.cpp \
 		../SpaceInvaders/shipStateFrozen.cpp \
 		../SpaceInvaders/shipStateNormal.cpp \
-		../SpaceInvaders/shipStateHyper.cpp
+		../SpaceInvaders/shipStateHyper.cpp \
+		../SpaceInvaders/shipStateDead.cpp
 QMAKE_TARGET  = SpaceInvaders
 DESTDIR       = 
 TARGET        = SpaceInvaders.app/Contents/MacOS/SpaceInvaders
@@ -706,8 +710,8 @@ distdir: FORCE
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../SpaceInvaders/resources.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /Users/joshuatvernon/Qt5.8.0/5.8/clang_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h ../SpaceInvaders/shipState.h ../SpaceInvaders/shipStateFrozen.h ../SpaceInvaders/shipStateNormal.h ../SpaceInvaders/shipStateHyper.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp ../SpaceInvaders/shipStateFrozen.cpp ../SpaceInvaders/shipStateNormal.cpp ../SpaceInvaders/shipStateHyper.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../SpaceInvaders/base.h ../SpaceInvaders/ship.h ../SpaceInvaders/gamedialog.h ../SpaceInvaders/bullet.h ../SpaceInvaders/config.h ../SpaceInvaders/bulletbuilderinterface.h ../SpaceInvaders/bulletbuilder.h ../SpaceInvaders/alien.h ../SpaceInvaders/swarminfo.h ../SpaceInvaders/swarm.h ../SpaceInvaders/diagonalbullet.h ../SpaceInvaders/alienbuilder.h ../SpaceInvaders/hunter.h ../SpaceInvaders/menu.h ../SpaceInvaders/alienbase.h ../SpaceInvaders/shipState.h ../SpaceInvaders/shipStateFrozen.h ../SpaceInvaders/shipStateNormal.h ../SpaceInvaders/shipStateHyper.h ../SpaceInvaders/shipStateDead.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../SpaceInvaders/main.cpp ../SpaceInvaders/base.cpp ../SpaceInvaders/ship.cpp ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/bullet.cpp ../SpaceInvaders/config.cpp ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/alien.cpp ../SpaceInvaders/swarminfo.cpp ../SpaceInvaders/swarm.cpp ../SpaceInvaders/diagonalbullet.cpp ../SpaceInvaders/alienbuilder.cpp ../SpaceInvaders/hunter.cpp ../SpaceInvaders/menu.cpp ../SpaceInvaders/shipStateFrozen.cpp ../SpaceInvaders/shipStateNormal.cpp ../SpaceInvaders/shipStateHyper.cpp ../SpaceInvaders/shipStateDead.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../SpaceInvaders/dialog.ui $(DISTDIR)/
 
 
@@ -740,10 +744,12 @@ qrc_resources.cpp: ../SpaceInvaders/resources.qrc \
 		../SpaceInvaders/Images/redInvader.png \
 		../SpaceInvaders/Images/laser.png \
 		../SpaceInvaders/Images/dumbInvader.png \
+		../SpaceInvaders/Images/background.png \
 		../SpaceInvaders/Images/ship.png \
 		../SpaceInvaders/Images/hunterInvader.png \
 		../SpaceInvaders/Images/hunterInvaderLaser.png \
 		../SpaceInvaders/Images/hypership.png \
+		../SpaceInvaders/Images/deadship.png \
 		../SpaceInvaders/Images/redInvaderLaser.png \
 		../SpaceInvaders/Images/dumbInvaderLaser.png \
 		../SpaceInvaders/Images/blueInvader.png \
@@ -1262,6 +1268,37 @@ shipStateHyper.o: ../SpaceInvaders/shipStateHyper.cpp ../SpaceInvaders/shipState
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shipStateHyper.o ../SpaceInvaders/shipStateHyper.cpp
+
+shipStateDead.o: ../SpaceInvaders/shipStateDead.cpp ../SpaceInvaders/shipStateDead.h \
+		../SpaceInvaders/base.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QPixmap \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
+		../SpaceInvaders/bullet.h \
+		../SpaceInvaders/bulletbuilder.h \
+		../SpaceInvaders/bulletbuilderinterface.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QList \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../SpaceInvaders/ship.h \
+		../SpaceInvaders/shipState.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h \
+		../SpaceInvaders/config.h \
+		../SpaceInvaders/swarminfo.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QPair \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qpair.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QString \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qstring.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QStringList \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qstringlist.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QFile \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qfile.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QHash \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qhash.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QSet \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qset.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QTextStream \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shipStateDead.o ../SpaceInvaders/shipStateDead.cpp
 
 qrc_resources.o: qrc_resources.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_resources.o qrc_resources.cpp

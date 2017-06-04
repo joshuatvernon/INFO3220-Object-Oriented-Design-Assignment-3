@@ -26,6 +26,7 @@ private:
     ShipState* normalState;
     ShipState* frozenState;
     ShipState* hyperState;
+    ShipState* deadState;
 
 public:
     Ship(QPixmap image, double scale, int x, int y);
@@ -41,6 +42,7 @@ public:
     ShipState* getNormalState();
     ShipState* getFrozenState();
     ShipState* getHyperState();
+    ShipState* getDeadState();
     QString getCurrentState();
 
     // Setters

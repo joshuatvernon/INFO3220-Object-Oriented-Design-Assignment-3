@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     menu.cpp \
     shipStateFrozen.cpp \
     shipStateNormal.cpp \
-    shipStateHyper.cpp
+    shipStateHyper.cpp \
+    shipStateDead.cpp
 
 HEADERS  += \
     base.h \
@@ -62,7 +63,8 @@ HEADERS  += \
     shipState.h \
     shipStateFrozen.h \
     shipStateNormal.h \
-    shipStateHyper.h
+    shipStateHyper.h \
+    shipStateDead.h
 
 FORMS    += dialog.ui
 

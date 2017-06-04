@@ -1,6 +1,6 @@
 [SCORES]
 scores=120,71,60,40,14
-players=GOKU,TRUNKS ,VEGETA,CHICHI,YUMCHA
+players=GOKU,TRUNKS,VEGETA,CHICHI,YUMCHA
 [SHIP]
 size=Tiny
 name=Trunks

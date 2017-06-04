@@ -15,5 +15,7 @@
         <file>Sounds/death.wav</file>
         <file>Images/frozenship.png</file>
         <file>Images/hypership.png</file>
+        <file>Images/deadship.png</file>
+        <file>Images/background.png</file>
     </qresource>
 </RCC>

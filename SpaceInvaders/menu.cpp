@@ -354,6 +354,17 @@ void Menu::displayMenu(bool paused) {
         controls->setVisible(true);
         resume->setVisible(true);
         menu->setVisible(false);
+        hyperContainer->setVisible(false);
+        hyper1->setVisible(false);
+        hyper2->setVisible(false);
+        hyper3->setVisible(false);
+        hyper4->setVisible(false);
+        hyper5->setVisible(false);
+        hyper6->setVisible(false);
+        hyper7->setVisible(false);
+        hyper8->setVisible(false);
+        hyper9->setVisible(false);
+        hyper10->setVisible(false);
     }
 }
 
@@ -379,6 +390,7 @@ void Menu::closeButtons() {
     aKey->setVisible(false);
     sKey->setVisible(false);
     dKey->setVisible(false);
+    hyperContainer->setVisible(true);
     revealPlayerScore(false);
 }
 

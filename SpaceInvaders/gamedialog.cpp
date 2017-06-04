@@ -427,6 +427,7 @@ void GameDialog::gameOver() {
        this->menu->winner();
    } else {
        this->menu->loser();
+       ship->setState((ShipState*) ship->getDeadState());
    }
    this->paused = true;
    this->menu->gameOver();
@@ -435,8 +436,11 @@ void GameDialog::gameOver() {
 
 void GameDialog::continueGame() {
     this->menu->newGame();
+    ship->setState((ShipState*) ship->getNormalState());
     this->bullets.clear();
     this->paused = false;
+    this->frozenCountdown = 0;
+    this->hyperFuel = 0;
     ship->set_x(c->get_startpos());
     ship->set_y(700);
     frames = c->get_frames();
@@ -505,6 +509,11 @@ void GameDialog::checkSwarmCollisions(AlienBase *&root) {
 void GameDialog::paintEvent(QPaintEvent*) {
     // SHIP
     QPainter painter(this);
+
+    // Background image
+    QPixmap bkgnd(":/Images/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    painter.drawPixmap(0, 0, bkgnd);
 
     // Paint Score
     QString score = QString("SCORE: %1").arg(gameScore);
