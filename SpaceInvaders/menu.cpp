@@ -72,6 +72,14 @@ Menu::~Menu() {
     delete topScoreNameLabel3;
     delete topScoreNameLabel4;
     delete topScoreNameLabel5;
+    delete leftArrowKey;
+    delete rightArrowKey;
+    delete upArrowKey;
+    delete downArrowKey;
+    delete wKey;
+    delete aKey;
+    delete sKey;
+    delete dKey;
 }
 
 void Menu::makeButtons(QWidget* parent) {
@@ -80,6 +88,11 @@ void Menu::makeButtons(QWidget* parent) {
     score->setVisible(false);
     score->setStyleSheet("background-color: #FFD954");
     QObject::connect(score, SIGNAL(released()), parent, SLOT(showScore()));
+
+    gameOverBackground = new QLabel(parent);
+    gameOverBackground->setGeometry(QRect(280, 120, 240, 385));
+    gameOverBackground->setVisible(false);
+    gameOverBackground->setStyleSheet("background-color: #3F3131");
 
     speed = new QPushButton("Speed", parent);
     speed->setGeometry(QRect(500, 0, 100, 30));
@@ -112,7 +125,7 @@ void Menu::makeButtons(QWidget* parent) {
     QObject::connect(chaos, SIGNAL(released()), parent, SLOT(pressChaos()));
 
     controls = new QPushButton("Controls", parent);
-    controls->setGeometry(QRect(700, 0, 100, 30));
+    controls->setGeometry(QRect(690, 0, 110, 30));
     controls->setVisible(false);
     controls->setStyleSheet("background-color: #FFD954");
     QObject::connect(controls, SIGNAL(released()), parent, SLOT(pressControls()));
@@ -219,6 +232,31 @@ void Menu::makeButtons(QWidget* parent) {
     topScoreNameLabel5->setVisible(false);
 
     updateTopScores();
+
+    // Game Over
+    gameOverTitle = new QLabel(parent);
+    gameOverTitle->setGeometry(QRect(350, 135, 100, 30));
+    gameOverTitle->setText("     Game Over");
+    gameOverTitle->setVisible(false);
+    gameOverTitle->setStyleSheet("background-color: white");
+
+    quitGameBtn = new QPushButton("Quit Game", parent);
+    quitGameBtn->setGeometry(QRect(350, 455, 100, 32));
+    quitGameBtn->setVisible(false);
+    quitGameBtn->setStyleSheet("background-color: #FFD954");
+    QObject::connect(quitGameBtn, SIGNAL(released()), parent, SLOT(closeGame()));
+
+    newGameBtn = new QPushButton("New Game", parent);
+    newGameBtn->setGeometry(QRect(350, 410, 100, 32));
+    newGameBtn->setVisible(false);
+    newGameBtn->setStyleSheet("background-color: #FFD954");
+    QObject::connect(newGameBtn, SIGNAL(released()), parent, SLOT(newGame()));
+
+    continueBtn = new QPushButton("Continue", parent);
+    continueBtn->setGeometry(QRect(350, 365, 100, 32));
+    continueBtn->setVisible(false);
+    continueBtn->setStyleSheet("background-color: #FFD954");
+    QObject::connect(continueBtn, SIGNAL(released()), parent, SLOT(continueGame()));
 }
 
 // called when game is paused or unpaused
@@ -510,6 +548,199 @@ void Menu::toggleDisplayLevels() {
 //    } else {
 //        levelsLabels->setVisible(true);
 //    }
+}
+
+void Menu::gameOver() {
+
+    menu->setEnabled(false);
+
+    // Display gameOver backgrond modal
+    gameOverBackground->setVisible(true);
+
+    // Display game over title
+    gameOverTitle->setVisible(true);
+
+    // Display final score -- against top scores
+    QList<int> overallScores = highScores;
+    QList<QString> overallPlayers = highScoringPlayers;
+    overallScores.append(gameScore);
+    overallPlayers.append(playerNameText);
+
+    // BubbleSort both highScores and highScoringPlayers
+    for (int i = 0; i < overallScores.size(); i++) {
+        for (int j = 0; j < overallScores.size(); j++) {
+            if (i == j) {
+                continue;
+            }
+            if (overallScores.at(i) >= overallScores.at(j)) {
+                int tempScore = overallScores.at(i);
+                overallScores.replace(i, overallScores.at(j));
+                overallScores.replace(j, tempScore);
+
+                QString tempPlayer = overallPlayers.at(i);
+                overallPlayers.replace(i, overallPlayers.at(j));
+                overallPlayers.replace(j, tempPlayer);
+            }
+        }
+    }
+
+    overallPlayers.pop_back();
+    overallScores.pop_back();
+
+    // Update top scores
+    highScores = overallScores;
+    highScoringPlayers = overallPlayers;
+    // Remove (me) from any top score as its a new game
+    for (int i = 0; i < 5; i++) {
+        if (QString::compare(highScoringPlayers.at(i), playerNameText, Qt::CaseInsensitive) == 0) {
+            QString formattedPlayerName = highScoringPlayers.at(i);
+            formattedPlayerName.chop(5);
+            highScoringPlayers.replace(i, formattedPlayerName);
+        }
+    }
+
+    topScoreLabel1->setText(" " + QString::number(overallScores.at(0)));
+    if (QString::compare(overallPlayers.at(0), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreLabel1->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreLabel1->setStyleSheet("background-color: white");
+    }
+    topScoreLabel2->setText(" " + QString::number(overallScores.at(1)));
+    if (QString::compare(overallPlayers.at(1), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreLabel2->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreLabel2->setStyleSheet("background-color: white");
+    }
+
+    topScoreLabel3->setText(" " + QString::number(overallScores.at(2)));
+    if (QString::compare(overallPlayers.at(2), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreLabel3->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreLabel3->setStyleSheet("background-color: white");
+    }
+
+    topScoreLabel4->setText(" " + QString::number(overallScores.at(3)));
+    if (QString::compare(overallPlayers.at(3), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreLabel4->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreLabel4->setStyleSheet("background-color: white");
+    }
+
+    topScoreLabel5->setText(" " + QString::number(overallScores.at(4)));
+    if (QString::compare(overallPlayers.at(4), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreLabel5->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreLabel5->setStyleSheet("background-color: white");
+    }
+
+    topScoreNameLabel1->setText(" " + overallPlayers.at(0));
+    if (QString::compare(overallPlayers.at(0), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreNameLabel1->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreNameLabel1->setStyleSheet("background-color: white");
+    }
+
+    topScoreNameLabel2->setText(" " + overallPlayers.at(1));
+    if (QString::compare(overallPlayers.at(1), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreNameLabel2->setStyleSheet("background-color: #E3216F");
+    } else {
+
+        topScoreNameLabel2->setStyleSheet("background-color: white");
+    }
+
+    topScoreNameLabel3->setText(" " + overallPlayers.at(2));
+    if (QString::compare(overallPlayers.at(2), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreNameLabel3->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreNameLabel3->setStyleSheet("background-color: white");
+    }
+
+    topScoreNameLabel4->setText(" " + overallPlayers.at(3));
+    if (QString::compare(overallPlayers.at(3), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreNameLabel4->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreNameLabel4->setStyleSheet("background-color: white");
+    }
+
+    topScoreNameLabel5->setText(" " + overallPlayers.at(4));
+    if (QString::compare(overallPlayers.at(4), playerNameText, Qt::CaseInsensitive) == 0) {
+        topScoreNameLabel5->setStyleSheet("background-color: #E3216F");
+    } else {
+        topScoreNameLabel5->setStyleSheet("background-color: white");
+    }
+
+    topScoreLabel1->setGeometry(QRect(402, 178, 100, 32));
+    topScoreLabel2->setGeometry(QRect(402, 213, 100, 32));
+    topScoreLabel3->setGeometry(QRect(402, 248, 100, 32));
+    topScoreLabel4->setGeometry(QRect(402, 283, 100, 32));
+    topScoreLabel5->setGeometry(QRect(402, 318, 100, 32));
+    topScoreNameLabel1->setGeometry(QRect(298, 178, 100, 32));
+    topScoreNameLabel2->setGeometry(QRect(298, 213, 100, 32));
+    topScoreNameLabel3->setGeometry(QRect(298, 248, 100, 32));
+    topScoreNameLabel4->setGeometry(QRect(298, 283, 100, 32));
+    topScoreNameLabel5->setGeometry(QRect(298, 318, 100, 32));
+
+
+    topScoreLabel1->setVisible(true);
+    topScoreLabel2->setVisible(true);
+    topScoreLabel3->setVisible(true);
+    topScoreLabel4->setVisible(true);
+    topScoreLabel5->setVisible(true);
+
+    topScoreNameLabel1->setVisible(true);
+    topScoreNameLabel2->setVisible(true);
+    topScoreNameLabel3->setVisible(true);
+    topScoreNameLabel4->setVisible(true);
+    topScoreNameLabel5->setVisible(true);
+
+    // Display continue game button
+    continueBtn->setVisible(true);
+
+    // Display newGame button
+    newGameBtn->setVisible(true);
+
+    // Display quit button
+    quitGameBtn->setVisible(true);
+}
+
+void Menu::newGame() {
+    // Close Game Over menu
+    gameOverTitle->setVisible(false);
+    gameOverBackground->setVisible(false);
+    quitGameBtn->setVisible(false);
+    newGameBtn->setVisible(false);
+    continueBtn->setVisible(false);
+    topScoreLabel1->setGeometry(QRect(400, 30, 100, 32));
+    topScoreLabel1->setVisible(false);
+    topScoreLabel2->setGeometry(QRect(400, 62, 100, 32));
+    topScoreLabel2->setVisible(false);
+    topScoreLabel3->setGeometry(QRect(400, 94, 100, 32));
+    topScoreLabel3->setVisible(false);
+    topScoreLabel4->setGeometry(QRect(400, 126, 100, 32));
+    topScoreLabel4->setVisible(false);
+    topScoreLabel5->setGeometry(QRect(400, 158, 100, 32));
+    topScoreLabel5->setVisible(false);
+    topScoreNameLabel1->setGeometry(QRect(300, 30, 100, 32));
+    topScoreNameLabel1->setVisible(false);
+    topScoreNameLabel2->setGeometry(QRect(300, 62, 100, 32));
+    topScoreNameLabel2->setVisible(false);
+    topScoreNameLabel3->setGeometry(QRect(300, 94, 100, 32));
+    topScoreNameLabel3->setVisible(false);
+    topScoreNameLabel4->setGeometry(QRect(300, 126, 100, 32));
+    topScoreNameLabel4->setVisible(false);
+    topScoreNameLabel5->setGeometry(QRect(300, 158, 100, 32));
+    topScoreNameLabel5->setVisible(false);
+    menu->setEnabled(true);
+}
+
+void Menu::winner() {
+    gameOverTitle->setText("      You Win!");
+    gameOverTitle->setStyleSheet("background-color: #A1E95B");
+}
+
+void Menu::loser() {
+    gameOverTitle->setText("     Game Over");
+    gameOverTitle->setStyleSheet("background-color: #DD231D");
 }
 
 }

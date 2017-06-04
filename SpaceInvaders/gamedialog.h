@@ -37,7 +37,10 @@ protected:
     // Key controls
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
+
+    // Levels
     int level;
+    bool lastLevel;
 
     // Mouse control
     void mouseMoveEvent(QMouseEvent *event);
@@ -88,5 +91,10 @@ public slots:
     void pressControls();
     void setWASDControls();
     void setArrowControls();
+    // Game Over
+    void gameOver();
+    void newGame();
+    void closeGame();
+    void continueGame();
 };
 }

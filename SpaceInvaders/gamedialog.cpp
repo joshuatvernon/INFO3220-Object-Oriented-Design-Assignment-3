@@ -48,6 +48,7 @@ GameDialog::GameDialog(QWidget* parent)
 
     // LEVEL
     level = 0;
+    lastLevel = false;
 
     // ALIENS
     generateAliens(c->getSwarmList(level));
@@ -189,7 +190,6 @@ void GameDialog::keyReleaseEvent(QKeyEvent *event) {
 void GameDialog::mouseMoveEvent(QMouseEvent *event) {
     if (!paused) {
         if (!mouseControl) {
-            qDebug() << "mouseMoveEvent()";
             manualControl = false;
             mouseControl = true;
         } else {
@@ -261,7 +261,6 @@ void GameDialog::setArrowControls() {
 void GameDialog::setWASDControls() {
     arrowManual = false;
     manualControl = true;
-    qDebug() << "setWASDControls()";
     menu->updateControlKeyColour();
     c->removeManualInstruction("Left");
     c->removeManualInstruction("Right");
@@ -271,16 +270,18 @@ void GameDialog::setWASDControls() {
 
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
-    qDebug() << "arrowManual:" << arrowManual;
-    qDebug() << "manualControl:" << manualControl;
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {
-            level++;
+            if (!lastLevel) {
+                level++;
+            }
             generateAliens(c->getSwarmList(level));
             if (level > c->numberOfLevels() && updateHighScores) {
                 updateHighScores = false;
                 c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
+                lastLevel = true;
+                gameOver();
             }
         }
         if (!manualControl && !mouseControl) {
@@ -362,12 +363,53 @@ void GameDialog::updateBullets()
             i--;
         } else if (score == -1) {
             // DEAD SHIP!
-            close();
+              c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
+              gameOver();
         } else {
             b->move();// we move at the end so that we can see collisions before the game ends
         }
         gameScore += score;
     }
+}
+
+void GameDialog::gameOver() {
+   if (swarms->getAliens().size() == 0 && lastLevel) {
+       this->menu->winner();
+   } else {
+       this->menu->loser();
+   }
+   this->paused = true;
+   this->menu->gameOver();
+   this->timer->stop();
+}
+
+void GameDialog::continueGame() {
+    this->menu->newGame();
+    this->bullets.clear();
+    this->paused = false;
+    ship->set_x(c->get_startpos());
+    ship->set_y(700);
+    frames = c->get_frames();
+    this->timer->setInterval(frames);
+    this->timer->start();;
+}
+
+void GameDialog::newGame() {
+    this->menu->newGame();
+    this->bullets.clear();
+    this->paused = false;
+    generateAliens(c->getSwarmList(0));
+    level = 1;
+    gameScore = 0;
+    ship->set_x(c->get_startpos());
+    ship->set_y(700);
+    frames = c->get_frames();
+    this->timer->setInterval(frames);
+    this->timer->start();;
+}
+
+void GameDialog::closeGame() {
+    close();
 }
 
 // recurse throughout the tree and draw everything.
@@ -392,7 +434,8 @@ void GameDialog::checkSwarmCollisions(AlienBase *&root) {
         if (list.size() == 0) {  // leaf
             // check if it is crashing into the player ship
             if (child->collides(*this->ship)) {
-                close();  // DEAD SHIP AGAIN
+                // DEAD SHIP AGAIN
+                gameOver();
             }
         } else {
           checkSwarmCollisions(child);
@@ -407,12 +450,15 @@ void GameDialog::paintEvent(QPaintEvent*) {
 
     // Paint Score
     QString score = QString("SCORE: %1").arg(gameScore);
+    QString levelString = QString("Level: %1").arg(level);
     painter.setPen(QColor("#FFD954"));
     QFont font = QFont("Courier New");
     font.setPixelSize(20);
     font.bold();
     painter.setFont(font);
     painter.drawText(8, 22, score);
+    painter.drawText(692, 22, levelString);
+
     painter.drawPixmap(ship->get_x(), ship->get_y(), ship->get_image());
 
     // loop through each alien swarm and draw
@@ -434,7 +480,6 @@ int GameDialog::get_collided(Bullet*& b, AlienBase*& root) {
         // check it hits the player ship
         if (b->collides(*this->ship)) {
             totalScore = -1;
-
         }  // future; add barriers here.
     } else {
         totalScore += get_collided_swarm(b, root);

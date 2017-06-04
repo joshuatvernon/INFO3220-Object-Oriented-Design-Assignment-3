@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_game__GameDialog_t {
-    QByteArrayData data[13];
-    char stringdata0[155];
+    QByteArrayData data[17];
+    char stringdata0[195];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -43,14 +43,19 @@ QT_MOC_LITERAL(8, 86, 10), // "pressChaos"
 QT_MOC_LITERAL(9, 97, 10), // "pauseStart"
 QT_MOC_LITERAL(10, 108, 13), // "pressControls"
 QT_MOC_LITERAL(11, 122, 15), // "setWASDControls"
-QT_MOC_LITERAL(12, 138, 16) // "setArrowControls"
+QT_MOC_LITERAL(12, 138, 16), // "setArrowControls"
+QT_MOC_LITERAL(13, 155, 8), // "gameOver"
+QT_MOC_LITERAL(14, 164, 7), // "newGame"
+QT_MOC_LITERAL(15, 172, 9), // "closeGame"
+QT_MOC_LITERAL(16, 182, 12) // "continueGame"
 
     },
     "game::GameDialog\0nextFrame\0\0showScore\0"
     "toggleShowSpeed\0pressSlow\0pressNormal\0"
     "pressFast\0pressChaos\0pauseStart\0"
     "pressControls\0setWASDControls\0"
-    "setArrowControls"
+    "setArrowControls\0gameOver\0newGame\0"
+    "closeGame\0continueGame"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +65,7 @@ static const uint qt_meta_data_game__GameDialog[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,19 +73,27 @@ static const uint qt_meta_data_game__GameDialog[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   69,    2, 0x0a /* Public */,
-       3,    0,   70,    2, 0x0a /* Public */,
-       4,    0,   71,    2, 0x0a /* Public */,
-       5,    0,   72,    2, 0x0a /* Public */,
-       6,    0,   73,    2, 0x0a /* Public */,
-       7,    0,   74,    2, 0x0a /* Public */,
-       8,    0,   75,    2, 0x0a /* Public */,
-       9,    0,   76,    2, 0x0a /* Public */,
-      10,    0,   77,    2, 0x0a /* Public */,
-      11,    0,   78,    2, 0x0a /* Public */,
-      12,    0,   79,    2, 0x0a /* Public */,
+       1,    0,   89,    2, 0x0a /* Public */,
+       3,    0,   90,    2, 0x0a /* Public */,
+       4,    0,   91,    2, 0x0a /* Public */,
+       5,    0,   92,    2, 0x0a /* Public */,
+       6,    0,   93,    2, 0x0a /* Public */,
+       7,    0,   94,    2, 0x0a /* Public */,
+       8,    0,   95,    2, 0x0a /* Public */,
+       9,    0,   96,    2, 0x0a /* Public */,
+      10,    0,   97,    2, 0x0a /* Public */,
+      11,    0,   98,    2, 0x0a /* Public */,
+      12,    0,   99,    2, 0x0a /* Public */,
+      13,    0,  100,    2, 0x0a /* Public */,
+      14,    0,  101,    2, 0x0a /* Public */,
+      15,    0,  102,    2, 0x0a /* Public */,
+      16,    0,  103,    2, 0x0a /* Public */,
 
  // slots: parameters
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -113,6 +126,10 @@ void game::GameDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         case 8: _t->pressControls(); break;
         case 9: _t->setWASDControls(); break;
         case 10: _t->setArrowControls(); break;
+        case 11: _t->gameOver(); break;
+        case 12: _t->newGame(); break;
+        case 13: _t->closeGame(); break;
+        case 14: _t->continueGame(); break;
         default: ;
         }
     }
@@ -144,13 +161,13 @@ int game::GameDialog::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 15)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 15;
     }
     return _id;
 }

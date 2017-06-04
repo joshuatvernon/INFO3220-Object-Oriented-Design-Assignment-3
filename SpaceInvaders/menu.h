@@ -17,6 +17,10 @@ public:
     QList<int> getHighScores();
     QList<QString> getHighScoringPlayers();
     void updateControlKeyColour();
+    void gameOver();
+    void newGame();
+    void winner();
+    void loser();
 
 private:
     void makeButtons(QWidget* parent);
@@ -64,6 +68,14 @@ private:
     QPushButton* aKey;
     QPushButton* sKey;
     QPushButton* dKey;
+
+    // Game Over
+    // Display gameOver backgrond modal
+    QLabel* gameOverBackground;
+    QLabel* gameOverTitle;
+    QPushButton* quitGameBtn;
+    QPushButton* newGameBtn;
+    QPushButton* continueBtn;
 
     // Menu
     void paintMenu();

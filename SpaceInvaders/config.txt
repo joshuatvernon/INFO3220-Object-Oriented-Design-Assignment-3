@@ -1,10 +1,10 @@
 [SCORES]
-scores=120,100,30,20,10
-players=VEGETA,GOKU,TRUNKS,CHICHI,YUMCHA
+scores=120,71,71,71,71
+players=GOKU,TRUNKS ,TRUNKS,TRUNKS,TRUNKS
 [SHIP]
 size=Tiny
 name=Trunks
-x=150
+x=350
 frames=60
 [LEVEL]
 [SWARM]
@@ -34,6 +34,7 @@ position=400 150, 800 150
 type=hunter
 move=
 shoot=3
+[LEVEL]
 [SWARM]
 position=200 250, 1000 150
 type=hunter
