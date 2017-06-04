@@ -6,7 +6,7 @@
 namespace game {
 class Menu {
 public:
-    Menu(QWidget* parent, QString name, int& playeScore, QList<int> scores, QList<QString> players);
+    Menu(QWidget* parent, QString name, int& playeScore, QList<int> scores, QList<QString> players, bool& arrow);
     ~Menu();
     void displayMenu(bool paused);
     void openScore();
@@ -14,15 +14,20 @@ public:
     void toggleDisplayControls();
     void toggleDisplayLevels();
     void updateTopScores();
+    QList<int> getHighScores();
+    QList<QString> getHighScoringPlayers();
+    void updateControlKeyColour();
 
 private:
-    void makeButtons(QWidget* parent, QString name);
+    void makeButtons(QWidget* parent);
     void closeButtons();  // if any buttons are left open, close them
     int& gameScore;
+    bool& arrowManual;
 
     // High scores
      QList<int> highScores;
      QList<QString> highScoringPlayers;
+     QString playerNameText;
 
     // Buttons
     QPushButton* score;
@@ -36,9 +41,7 @@ private:
     QPushButton* resume;
 
     // Labels
-    QLabel* playerName;
-    QLabel* playerScoreLabel;
-
+    // Scores
     QLabel* topScoreNameLabel1;
     QLabel* topScoreNameLabel2;
     QLabel* topScoreNameLabel3;
@@ -49,8 +52,18 @@ private:
     QLabel* topScoreLabel3;
     QLabel* topScoreLabel4;
     QLabel* topScoreLabel5;
-
+    // Controls
     QLabel* controlsLabel;
+    QPushButton* controlsArrow;
+    QPushButton* controlsWASD;
+    QPushButton* leftArrowKey;
+    QPushButton* rightArrowKey;
+    QPushButton* upArrowKey;
+    QPushButton* downArrowKey;
+    QPushButton* wKey;
+    QPushButton* aKey;
+    QPushButton* sKey;
+    QPushButton* dKey;
 
     // Menu
     void paintMenu();

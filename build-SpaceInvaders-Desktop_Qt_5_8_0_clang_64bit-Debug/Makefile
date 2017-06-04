@@ -995,7 +995,9 @@ config.o: ../SpaceInvaders/config.cpp ../SpaceInvaders/config.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QTextStream \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QChar \
-		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qchar.h
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qchar.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o config.o ../SpaceInvaders/config.cpp
 
 bulletbuilder.o: ../SpaceInvaders/bulletbuilder.cpp ../SpaceInvaders/bulletbuilder.h \
@@ -1131,7 +1133,11 @@ menu.o: ../SpaceInvaders/menu.cpp ../SpaceInvaders/menu.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtWidgets.framework/Headers/QLabel \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtWidgets.framework/Headers/qlabel.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtWidgets.framework/Headers/QPushButton \
-		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QPainter \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qpainter.h \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o menu.o ../SpaceInvaders/menu.cpp
 
 qrc_resources.o: qrc_resources.cpp 

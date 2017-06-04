@@ -57,7 +57,7 @@ Config* Config::s_configInstance = 0;
 
 Config::Config() {
     // GENERAL READING OF CONFIG FILE
-    QFile c_file("config-test.txt");
+    QFile c_file("config.txt");
     c_file.open(QIODevice::ReadOnly);
 
     QList<SwarmInfo> swarmList = {};
@@ -94,7 +94,7 @@ QString Config::copyConfig(QTextStream& in) {
     QString configFile = "";
     while (!in.atEnd()) {
         QString l = in.readLine().trimmed();
-        if (!l.startsWith("[SCORES]") && !l.startsWith("scores=") && !l.isEmpty()) {
+        if (!l.startsWith("[SCORES]") && !l.startsWith("players=") && !l.startsWith("scores=") && !l.isEmpty()) {
             configFile.append(l + "\n");
         }
     }
@@ -102,8 +102,7 @@ QString Config::copyConfig(QTextStream& in) {
 }
 
 // Add scores to the config file
-void Config::updateConfigScores(QList<int> scores) {
-
+void Config::updateConfigScores(QList<int> scores, QList<QString> players) {
     QString newConfig = "[SCORES]\n";
     newConfig.append("scores=");
     for (int i = 0; i < scores.size(); i++) {
@@ -113,8 +112,16 @@ void Config::updateConfigScores(QList<int> scores) {
     // remove last ',', add newline
     newConfig.chop(1);
     newConfig.append("\n");
+    newConfig.append("players=");
+    for (int i = 0; i < players.size(); i++) {
+        newConfig.append(players.at(i) + ",");
 
-    QFile c_file("config-test.txt");
+    }
+    // remove last ',', add newline
+    newConfig.chop(1);
+    newConfig.append("\n");
+
+    QFile c_file("config.txt");
     QTextStream in(&c_file);
     c_file.open(QIODevice::ReadOnly);
     QString prevConfig = copyConfig(in);
@@ -192,9 +199,9 @@ void Config::processShip(QTextStream& in) {
         } else if (l.startsWith("name=")) {
             l = l.split("=").last();
             if (l.length() != 0) {
-                name = l.split("=").last();  // name can be anything, up to 5 char long.
+                name = l.split("=").last();  // name can be anything, up to 6 char long.
                 name.chop(name.size() - NAME_LENGTH);
-                name = name.toUpper();
+                name = name.toUpper() + " (me)";
             }
         } else if (l.startsWith("instructions=")) {  // starts with movement INSTRUCTIONS
             l = l.split("=").last();
@@ -241,6 +248,10 @@ void Config::processScores(QTextStream& in) {
         } else if (l.startsWith("players=")) {
             l = l.split("=").last();
             highScoringPlayers = l.split(",");
+            for (QString& player : highScoringPlayers) {
+                player = player.toUpper();
+                player.chop(player.size() - NAME_LENGTH);
+            }
         } else if (l.startsWith("[SHIP]")) {
             // reads the ship information, saves (possibly incomplete hence default)
             // swarm info

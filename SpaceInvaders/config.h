@@ -6,7 +6,7 @@
 #include <QPair>
 #include <QSet>
 #include <QTextStream>
-#define NAME_LENGTH 5
+#define NAME_LENGTH 6
 
 namespace game {
 
@@ -63,7 +63,7 @@ protected:
 
 public:
     // testing
-    void updateConfigScores(QList<int> scores);
+    void updateConfigScores(QList<int> scores, QList<QString> players);
 
     // AS THE CONFIG GIVES INPUT, THE FILE IS READ TO THEN SET ATTRIBUTES.
     // GETTERS

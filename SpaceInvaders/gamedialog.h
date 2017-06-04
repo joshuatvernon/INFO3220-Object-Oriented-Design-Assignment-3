@@ -59,11 +59,11 @@ protected:
 
     // pausing & menu
     bool manualControl;
+    bool arrowManual;
     bool paused;
 
     void setSpeed(QString speed);
 
-    void pressControls();
     void pressLevels();
 
     Menu* menu;
@@ -84,6 +84,9 @@ public slots:
     void pressFast();
     void pressChaos();
     void pauseStart();
-    void paintMenu();
+    // Changing controls
+    void pressControls();
+    void setWASDControls();
+    void setArrowControls();
 };
 }

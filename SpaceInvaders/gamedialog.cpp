@@ -21,6 +21,7 @@ GameDialog::GameDialog(QWidget* parent)
 
     setMouseTracking(true);
     mouseControl = false;
+    arrowManual = true;
 
     c = Config::getInstance();
     SCALEDWIDTH = c->get_SCALEDWIDTH();
@@ -31,7 +32,7 @@ GameDialog::GameDialog(QWidget* parent)
     highScoringPlayers = c->getHighScoringPlayers();
 
     // MENU
-    menu = new Menu(this, c->get_name(), this->gameScore, highScores, highScoringPlayers);
+    menu = new Menu(this, c->get_name(), this->gameScore, highScores, highScoringPlayers, this->arrowManual);
 
     // EXTENSION STAGE 1 PART 1 - RESCALE GAME SCREEN FOR SHIP SIZE
     this->setFixedWidth(SCALEDWIDTH);
@@ -91,7 +92,6 @@ void GameDialog::pauseStart() {
         // start game
         this->paused = false;
         this->menu->displayMenu(paused);
-        paintMenu();
         this->timer->start(frames);
     } else {
         this->paused = true;
@@ -112,86 +112,84 @@ void GameDialog::setSpeed(QString speed) {
     }
 }
 
-void GameDialog::paintMenu() {
-    QPainter painter(this);
-
-    QString gameOver = "GAME OVER";
-    QString score = QString("SCORE: %1").arg(100);
-//    int killedAliens = m_numberOfAliens - m_swarm.getList().size();
-    int killedAliens = 100 - 50;
-    QString aliens = QString("ALIENS KILLED: %1").arg(killedAliens);
-
-    painter.setPen(Qt::yellow);
-    QFont font = QFont("Courier New");
-    font.setPixelSize(20);
-    font.bold();
-    painter.setFont(font);
-
-    painter.drawText(335, 280, gameOver);
-    painter.drawText(328, 320, score);
-    painter.drawText(290, 360, aliens);
-}
-
 void GameDialog::keyPressEvent(QKeyEvent* event) {
     if (!manualControl) {
         if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down || event->key() == Qt::Key_Space) {
             // A control key has been pressed turn on manual control
             manualControl = true;
+            arrowManual = true;
             mouseControl = false;
         }
     }
+
     if (event->key() == Qt::Key_Escape) {
         pauseStart();
-    } else if (event->key() == Qt::Key_Left) {
-        c->addManualInstruction("Left");
-    } else if (event->key() == Qt::Key_Right) {
-        c->addManualInstruction("Right");
-    } else if (event->key() == Qt::Key_Up) {
-        c->addManualInstruction("Up");
-    } else if (event->key() == Qt::Key_Down) {
-        c->addManualInstruction("Down");
-    } else if (event->key() == Qt::Key_Space) {
-        c->addManualInstruction("Shoot");
-    } else if (event->key() == Qt::Key_A) {
-        c->addManualInstruction("A");
-    } else if (event->key() == Qt::Key_D) {
-        c->addManualInstruction("D");
-    } else if (event->key() == Qt::Key_W) {
-        c->addManualInstruction("W");
-    } else if (event->key() == Qt::Key_S) {
-        c->addManualInstruction("S");
-    } else if (event->key() == Qt::Key_Shift) {
-        c->addManualInstruction("Shift");
     }
+
+    if (arrowManual) {
+        // Use arrow keys for movement
+        if (event->key() == Qt::Key_Left) {
+            c->addManualInstruction("Left");
+        } else if (event->key() == Qt::Key_Right) {
+            c->addManualInstruction("Right");
+        } else if (event->key() == Qt::Key_Up) {
+            c->addManualInstruction("Up");
+        } else if (event->key() == Qt::Key_Down) {
+            c->addManualInstruction("Down");
+        }
+    } else {
+        // use WASD keys for movement
+        if (event->key() == Qt::Key_A) {
+            c->addManualInstruction("Left");
+        } else if (event->key() == Qt::Key_D) {
+            c->addManualInstruction("Right");
+        } else if (event->key() == Qt::Key_W) {
+            c->addManualInstruction("Up");
+        } else if (event->key() == Qt::Key_S) {
+            c->addManualInstruction("Down");
+        }
+    }
+
+    if (event->key() == Qt::Key_Space) {
+        c->addManualInstruction("Shoot");
+    }
+
 }
 
 void GameDialog::keyReleaseEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_Left) {
-        c->removeManualInstruction("Left");
-    } else if (event->key() == Qt::Key_Right) {
-        c->removeManualInstruction("Right");
-    } else if (event->key() == Qt::Key_Up) {
-        c->removeManualInstruction("Up");
-    } else if (event->key() == Qt::Key_Down) {
-        c->removeManualInstruction("Down");
-    } else if (event->key() == Qt::Key_Space) {
+    if (event->key() == Qt::Key_Space) {
         c->removeManualInstruction("Shoot");
-    } else if (event->key() == Qt::Key_A) {
-        c->removeManualInstruction("A");
-    } else if (event->key() == Qt::Key_D) {
-        c->removeManualInstruction("D");
-    } else if (event->key() == Qt::Key_W) {
-        c->removeManualInstruction("W");
-    } else if (event->key() == Qt::Key_S) {
-        c->removeManualInstruction("S");
-    } else if (event->key() == Qt::Key_Shift) {
-        c->removeManualInstruction("Shift");
+    }
+
+    if (arrowManual) {
+        // Use arrow keys for movement
+        if (event->key() == Qt::Key_Left) {
+            c->removeManualInstruction("Left");
+        } else if (event->key() == Qt::Key_Right) {
+            c->removeManualInstruction("Right");
+        } else if (event->key() == Qt::Key_Up) {
+            c->removeManualInstruction("Up");
+        } else if (event->key() == Qt::Key_Down) {
+            c->removeManualInstruction("Down");
+        }
+    } else {
+        // use WASD keys for movement
+        if (event->key() == Qt::Key_A) {
+            c->removeManualInstruction("Left");
+        } else if (event->key() == Qt::Key_D) {
+            c->removeManualInstruction("Right");
+        } else if (event->key() == Qt::Key_W) {
+            c->removeManualInstruction("Up");
+        } else if (event->key() == Qt::Key_S) {
+            c->removeManualInstruction("Down");
+        }
     }
 }
 
 void GameDialog::mouseMoveEvent(QMouseEvent *event) {
     if (!paused) {
         if (!mouseControl) {
+            qDebug() << "mouseMoveEvent()";
             manualControl = false;
             mouseControl = true;
         } else {
@@ -250,8 +248,31 @@ void GameDialog::pressLevels() {
     menu->toggleDisplayLevels();
 }
 
+void GameDialog::setArrowControls() {
+    arrowManual = true;
+    manualControl = true;
+    menu->updateControlKeyColour();
+    c->removeManualInstruction("Left");
+    c->removeManualInstruction("Right");
+    c->removeManualInstruction("Up");
+    c->removeManualInstruction("Down");
+}
+
+void GameDialog::setWASDControls() {
+    arrowManual = false;
+    manualControl = true;
+    qDebug() << "setWASDControls()";
+    menu->updateControlKeyColour();
+    c->removeManualInstruction("Left");
+    c->removeManualInstruction("Right");
+    c->removeManualInstruction("Up");
+    c->removeManualInstruction("Down");
+}
+
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
+    qDebug() << "arrowManual:" << arrowManual;
+    qDebug() << "manualControl:" << manualControl;
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {
@@ -259,8 +280,7 @@ void GameDialog::nextFrame() {
             generateAliens(c->getSwarmList(level));
             if (level > c->numberOfLevels() && updateHighScores) {
                 updateHighScores = false;
-                QList<int> scores = {1, 2, 3, 4, 5};
-                c->updateConfigScores(scores);
+                c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
             }
         }
         if (!manualControl && !mouseControl) {
@@ -364,9 +384,8 @@ void GameDialog::paintSwarm(QPainter& painter, AlienBase*& root) {
     }
 }
 
-//check if any aliens based off the alien root are crashing with the player ship.
-void GameDialog::checkSwarmCollisions(AlienBase *&root)
-{
+// check if any aliens based off the alien root are crashing with the player ship.
+void GameDialog::checkSwarmCollisions(AlienBase *&root) {
     for (AlienBase* child : root->getAliens()) {
         // if the child is a leaf (i.e., an alien that has no children), check for collisions.
         const QList<AlienBase*>& list = child->getAliens();
@@ -386,6 +405,14 @@ void GameDialog::paintEvent(QPaintEvent*) {
     // SHIP
     QPainter painter(this);
 
+    // Paint Score
+    QString score = QString("SCORE: %1").arg(gameScore);
+    painter.setPen(QColor("#FFD954"));
+    QFont font = QFont("Courier New");
+    font.setPixelSize(20);
+    font.bold();
+    painter.setFont(font);
+    painter.drawText(8, 22, score);
     painter.drawPixmap(ship->get_x(), ship->get_y(), ship->get_image());
 
     // loop through each alien swarm and draw
