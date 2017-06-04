@@ -59,7 +59,7 @@ void Menu::makeHyperfuelContainers(QWidget* parent) {
 
     hyperAlert = new QLabel(parent);
     hyperAlert->setGeometry(QRect(300, 65, 200, 20));
-    hyperAlert->setText("              HYPER READY!!!");
+    hyperAlert->setText("   HYPER READY - HIT SHIFT!!!");
     hyperAlert->setVisible(true);
     hyperAlert->setStyleSheet("font-weight: bold; color: white");
 
@@ -824,52 +824,52 @@ void Menu::loser() {
 
 void Menu::updateHyperFuel(int newHyperFuel) {
     this->hyperFuel = newHyperFuel;
-    if (this->hyperFuel >= 100) {
+    if (this->hyperFuel >= 10) {
         hyper1->setVisible(true);
     } else {
         hyper1->setVisible(false);
     }
-    if (this->hyperFuel >= 200) {
+    if (this->hyperFuel >= 20) {
         hyper2->setVisible(true);
     } else {
         hyper2->setVisible(false);
     }
-    if (this->hyperFuel >= 300) {
+    if (this->hyperFuel >= 30) {
         hyper3->setVisible(true);
     } else {
         hyper3->setVisible(false);
     }
-    if (this->hyperFuel >= 400) {
+    if (this->hyperFuel >= 40) {
         hyper4->setVisible(true);
     } else {
         hyper4->setVisible(false);
     }
-    if (this->hyperFuel >= 500) {
+    if (this->hyperFuel >= 50) {
         hyper5->setVisible(true);
     } else {
         hyper5->setVisible(false);
     }
-    if (this->hyperFuel >= 600) {
+    if (this->hyperFuel >= 60) {
         hyper6->setVisible(true);
     } else {
         hyper6->setVisible(false);
     }
-    if (this->hyperFuel >= 700) {
+    if (this->hyperFuel >= 70) {
         hyper7->setVisible(true);
     } else {
         hyper7->setVisible(false);
     }
-    if (this->hyperFuel >= 800) {
+    if (this->hyperFuel >= 80) {
         hyper8->setVisible(true);
     } else {
         hyper8->setVisible(false);
     }
-    if (this->hyperFuel >= 900) {
+    if (this->hyperFuel >= 90) {
         hyper9->setVisible(true);
     } else {
         hyper9->setVisible(false);
     }
-    if (this->hyperFuel >= 1000) {
+    if (this->hyperFuel >= 100) {
         hyper10->setVisible(true);
         hyperAlert->setVisible(true);
     } else {

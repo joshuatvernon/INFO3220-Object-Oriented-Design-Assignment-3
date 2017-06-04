@@ -173,6 +173,11 @@ void GameDialog::keyReleaseEvent(QKeyEvent *event) {
         c->removeManualInstruction("Shoot");
     }
 
+    // If shift key pressed and hyper fuel available, change to hyper state
+    if (event->key() == Qt::Key_Shift && ship->getCurrentState() == "Normal" && this->hyperFuel >= 100) {
+        ship->setState((ShipState*) ship->getHyperState());
+    }
+
     if (arrowManual) {
         // Use arrow keys for movement
         if (event->key() == Qt::Key_Left) {
@@ -275,14 +280,24 @@ void GameDialog::setWASDControls() {
     c->removeManualInstruction("Down");
 }
 
+void GameDialog::updateHyperFuel() {
+    if (this->hyperFuel <= 1) {
+        ship->setState((ShipState*) ship->getNormalState());
+    }
+    if (QString::compare(ship->getCurrentState(), "Normal", Qt::CaseInsensitive) == 0) {
+        hyperFuel = hyperFuel < 100 ? hyperFuel + 1 : hyperFuel;
+    }
+    if (QString::compare(ship->getCurrentState(), "Hyper", Qt::CaseInsensitive) == 0) {
+        hyperFuel = hyperFuel > 0 ? hyperFuel - 1 : hyperFuel;
+    }
+}
+
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
-    if (ship->getCurrentState() == ship->getHyperState()) {
-        // Ship is currently in hyper state!
-        qDebug() << "hyperFuel";
-        hyperFuel = hyperFuel < 1000 ? hyperFuel + 1 : hyperFuel;
-        menu->updateHyperFuel(hyperFuel);
-    }
+    // Update to hyper if fuel is enough
+    updateHyperFuel();
+
+    menu->updateHyperFuel(hyperFuel);
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {

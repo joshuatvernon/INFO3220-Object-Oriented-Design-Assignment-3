@@ -64,29 +64,27 @@ ShipState* Ship::getNormalState() {
 }
 
 ShipState* Ship::getFrozenState() {
-    return this->normalState;
+    return this->frozenState;
 }
 
 ShipState* Ship::getHyperState() {
-    return this->normalState;
+    return this->hyperState;
 }
 
-ShipState* Ship::getCurrentState() {
-    return this->state;
+QString Ship::getCurrentState() {
+    if (this->state == normalState) {
+        return "Normal";
+    } else if (this->state == frozenState) {
+        return "Frozen";
+    } else {
+        return "Hyper";
+    }
 }
 
 // Setters
 
-void Ship::setNormalState(ShipState* state) {
-    this->state = state;
-}
-
-void Ship::setFrozenState(ShipState* state) {
-    this->state = state;
-}
-
-void Ship::setHyperState(ShipState* state) {
-    this->state = state;
+void Ship::setState(ShipState* newState) {
+    state = (ShipState*) newState;
 }
 
 Ship::~Ship() {

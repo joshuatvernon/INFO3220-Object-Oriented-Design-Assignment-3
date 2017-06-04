@@ -41,12 +41,10 @@ public:
     ShipState* getNormalState();
     ShipState* getFrozenState();
     ShipState* getHyperState();
-    ShipState* getCurrentState();
+    QString getCurrentState();
 
     // Setters
-    void setNormalState(ShipState* state);
-    void setFrozenState(ShipState* state);
-    void setHyperState(ShipState* state);
+    void setState(ShipState* newState);
 
     virtual ~Ship();
 };

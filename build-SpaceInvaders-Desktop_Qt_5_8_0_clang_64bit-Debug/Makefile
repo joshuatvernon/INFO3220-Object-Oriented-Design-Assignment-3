@@ -916,7 +916,10 @@ ship.o: ../SpaceInvaders/ship.cpp ../SpaceInvaders/ship.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QSet \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qset.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QTextStream \
-		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h
+		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h \
+		../SpaceInvaders/shipStateFrozen.h \
+		../SpaceInvaders/shipStateHyper.h \
+		../SpaceInvaders/shipStateNormal.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ship.o ../SpaceInvaders/ship.cpp
 
 gamedialog.o: ../SpaceInvaders/gamedialog.cpp ../SpaceInvaders/gamedialog.h \
@@ -1165,16 +1168,17 @@ menu.o: ../SpaceInvaders/menu.cpp ../SpaceInvaders/menu.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o menu.o ../SpaceInvaders/menu.cpp
 
-shipStateFrozen.o: ../SpaceInvaders/shipStateFrozen.cpp ../SpaceInvaders/ship.h \
+shipStateFrozen.o: ../SpaceInvaders/shipStateFrozen.cpp ../SpaceInvaders/shipStateFrozen.h \
 		../SpaceInvaders/base.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
 		../SpaceInvaders/bullet.h \
 		../SpaceInvaders/bulletbuilder.h \
 		../SpaceInvaders/bulletbuilderinterface.h \
-		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QList \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../SpaceInvaders/ship.h \
+		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h \
 		../SpaceInvaders/config.h \
@@ -1195,16 +1199,17 @@ shipStateFrozen.o: ../SpaceInvaders/shipStateFrozen.cpp ../SpaceInvaders/ship.h 
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shipStateFrozen.o ../SpaceInvaders/shipStateFrozen.cpp
 
-shipStateNormal.o: ../SpaceInvaders/shipStateNormal.cpp ../SpaceInvaders/ship.h \
+shipStateNormal.o: ../SpaceInvaders/shipStateNormal.cpp ../SpaceInvaders/shipStateNormal.h \
 		../SpaceInvaders/base.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
 		../SpaceInvaders/bullet.h \
 		../SpaceInvaders/bulletbuilder.h \
 		../SpaceInvaders/bulletbuilderinterface.h \
-		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QList \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../SpaceInvaders/ship.h \
+		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h \
 		../SpaceInvaders/config.h \
@@ -1225,16 +1230,17 @@ shipStateNormal.o: ../SpaceInvaders/shipStateNormal.cpp ../SpaceInvaders/ship.h 
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qtextstream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o shipStateNormal.o ../SpaceInvaders/shipStateNormal.cpp
 
-shipStateHyper.o: ../SpaceInvaders/shipStateHyper.cpp ../SpaceInvaders/ship.h \
+shipStateHyper.o: ../SpaceInvaders/shipStateHyper.cpp ../SpaceInvaders/shipStateHyper.h \
 		../SpaceInvaders/base.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QPixmap \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qpixmap.h \
 		../SpaceInvaders/bullet.h \
 		../SpaceInvaders/bulletbuilder.h \
 		../SpaceInvaders/bulletbuilderinterface.h \
-		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/QList \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtGui.framework/Headers/qevent.h \
+		../SpaceInvaders/ship.h \
+		../SpaceInvaders/shipState.h \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/QDebug \
 		/Users/joshuatvernon/Qt5.8.0/5.8/clang_64/lib/QtCore.framework/Headers/qdebug.h \
 		../SpaceInvaders/config.h \

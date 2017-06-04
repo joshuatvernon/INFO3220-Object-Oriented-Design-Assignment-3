@@ -67,6 +67,7 @@ protected:
 
     // Hyper state support
     int hyperFuel;
+    void updateHyperFuel();
 
     void setSpeed(QString speed);
 
