@@ -743,10 +743,12 @@ qrc_resources.cpp: ../SpaceInvaders/resources.qrc \
 		../SpaceInvaders/Images/ship.png \
 		../SpaceInvaders/Images/hunterInvader.png \
 		../SpaceInvaders/Images/hunterInvaderLaser.png \
+		../SpaceInvaders/Images/hypership.png \
 		../SpaceInvaders/Images/redInvaderLaser.png \
 		../SpaceInvaders/Images/dumbInvaderLaser.png \
 		../SpaceInvaders/Images/blueInvader.png \
 		../SpaceInvaders/Images/blueInvaderLaser.png \
+		../SpaceInvaders/Images/frozenship.png \
 		../SpaceInvaders/Sounds/death.wav \
 		../SpaceInvaders/Sounds/invader.wav \
 		../SpaceInvaders/Sounds/shoot.wav

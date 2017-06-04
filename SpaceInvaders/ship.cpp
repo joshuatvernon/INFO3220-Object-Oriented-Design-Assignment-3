@@ -85,10 +85,22 @@ QString Ship::getCurrentState() {
 
 void Ship::setState(ShipState* newState) {
     state = (ShipState*) newState;
+    if (getCurrentState() == "Frozen") {
+        QPixmap ship;
+        ship.load(":/Images/frozenship.png");
+        set_image(ship);
+    } else if (getCurrentState() == "Normal") {
+        QPixmap ship;
+        ship.load(":/Images/ship.png");
+        set_image(ship);
+    } else {
+        QPixmap ship;
+        ship.load(":/Images/hypership.png");
+        set_image(ship);
+    }
 }
 
 Ship::~Ship() {
-    delete state;
     delete normalState;
     delete frozenState;
     delete hyperState;

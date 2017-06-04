@@ -69,6 +69,9 @@ protected:
     int hyperFuel;
     void updateHyperFuel();
 
+    // Frozen state support
+    int frozenCountdown;
+
     void setSpeed(QString speed);
 
     Menu* menu;

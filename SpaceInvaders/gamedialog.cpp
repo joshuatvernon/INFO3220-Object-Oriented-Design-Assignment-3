@@ -53,6 +53,9 @@ GameDialog::GameDialog(QWidget* parent)
     // Hyper support
     hyperFuel = 0;
 
+    // Frozen state support
+    frozenCountdown = 0;
+
     // ALIENS
     generateAliens(c->getSwarmList(level));
 
@@ -209,10 +212,12 @@ void GameDialog::mouseMoveEvent(QMouseEvent *event) {
             manualControl = false;
             mouseControl = true;
         } else {
-            QPoint pos = event->pos();
-            ship->set_x(pos.x());
-            if (pos.y() > 350) {
-                ship->set_y(pos.y());
+            if (frozenCountdown <= 0) {
+                QPoint pos = event->pos();
+                ship->set_x(pos.x());
+                if (pos.y() > 350) {
+                    ship->set_y(pos.y());
+                }
             }
         }
     }
@@ -294,8 +299,16 @@ void GameDialog::updateHyperFuel() {
 
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
-    // Update to hyper if fuel is enough
-    updateHyperFuel();
+    if (ship->getCurrentState() == "Frozen") {
+        if (frozenCountdown <= 0) {
+            ship->setState((ShipState*) ship->getNormalState());
+        } else {
+            frozenCountdown = frozenCountdown > 0 ? frozenCountdown - 1 : frozenCountdown;
+            hyperFuel = hyperFuel > 0 ? hyperFuel - 1 : hyperFuel;
+        }
+    } else {
+        updateHyperFuel();
+    }
 
     menu->updateHyperFuel(hyperFuel);
     if (!paused) {
@@ -306,6 +319,7 @@ void GameDialog::nextFrame() {
             }
             generateAliens(c->getSwarmList(level));
             if (level > c->numberOfLevels() && updateHighScores) {
+                // Winner!
                 updateHighScores = false;
                 c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
                 lastLevel = true;
@@ -391,8 +405,16 @@ void GameDialog::updateBullets()
             i--;
         } else if (score == -1) {
             // DEAD SHIP!
-              c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
-              gameOver();
+            delete b;
+            bullets.erase(bullets.begin() + i);
+            i--;
+            if (ship->getCurrentState() == "Frozen") {
+                c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
+                gameOver();
+            } else {
+                ship->setState((ShipState*) ship->getFrozenState());
+                frozenCountdown = 25;
+            }
         } else {
             b->move();// we move at the end so that we can see collisions before the game ends
         }
@@ -429,6 +451,8 @@ void GameDialog::newGame() {
     generateAliens(c->getSwarmList(0));
     level = 1;
     gameScore = 0;
+    frozenCountdown = 0;
+    hyperFuel = 0;
     ship->set_x(c->get_startpos());
     ship->set_y(700);
     frames = c->get_frames();
@@ -463,7 +487,13 @@ void GameDialog::checkSwarmCollisions(AlienBase *&root) {
             // check if it is crashing into the player ship
             if (child->collides(*this->ship)) {
                 // DEAD SHIP AGAIN
-                gameOver();
+                if (ship->getCurrentState() == "Frozen") {
+                    c->updateConfigScores(menu->getHighScores(), menu->getHighScoringPlayers());
+                    gameOver();
+                } else {
+                    ship->setState((ShipState*) ship->getFrozenState());
+                    frozenCountdown = 25;
+                }
             }
         } else {
           checkSwarmCollisions(child);
@@ -508,6 +538,7 @@ int GameDialog::get_collided(Bullet*& b, AlienBase*& root) {
         // check it hits the player ship
         if (b->collides(*this->ship)) {
             totalScore = -1;
+//            delete b;
         }  // future; add barriers here.
     } else {
         totalScore += get_collided_swarm(b, root);

@@ -13,5 +13,7 @@
         <file>Images/hunterInvaderLaser.png</file>
         <file>Sounds/invader.wav</file>
         <file>Sounds/death.wav</file>
+        <file>Images/frozenship.png</file>
+        <file>Images/hypership.png</file>
     </qresource>
 </RCC>
