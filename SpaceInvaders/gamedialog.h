@@ -81,5 +81,6 @@ public slots:
     void pressFast();
     void pressChaos();
     void pauseStart();
+    void paintMenu();
 };
 }

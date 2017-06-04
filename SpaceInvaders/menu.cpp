@@ -1,5 +1,7 @@
 #include "menu.h"
 
+#include <QPainter>
+
 namespace game {
 
 Menu::Menu(QWidget* parent, QString name, int& playerScore, QList<QPair<QString, int>> scores)

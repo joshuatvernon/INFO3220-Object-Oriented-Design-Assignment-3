@@ -2,6 +2,7 @@
 #include "config.h"
 #include <QChar>
 #include <iostream>
+#include <QDebug>
 #define WIDTH 800
 #define HEIGHT 600
 
@@ -62,6 +63,7 @@ Config::Config() {
     QList<SwarmInfo> swarmList = {};
     swarmsList.append(swarmList);
     levelCount = 0;
+    swarmCount = 0;
 
     QTextStream in(&c_file);
     initDefault();
@@ -162,12 +164,16 @@ void Config::processShip(QTextStream& in) {
             }
         } else if (l.startsWith("[SWARM]")) {
             // reads a different header.
+            swarmCount++;
             processSwarm(in);
             return;  // we already have default settings for ship so it's okay to just
                      // return
         } else if (l.startsWith("[SHIP]")) {
             // ignore [SHIP] line
-        } else {
+        } else if (l.startsWith("[LEVEL]")) {
+            processSwarm(in);
+            return;
+        }else {
             std::cout << "Incorrect key, check [SHIP] usage" << std::endl;
             std::cout << "<" << l.toStdString() << ">" << std::endl;
         }
@@ -216,7 +222,9 @@ void Config::processSwarm(QTextStream& in) {
         // make some default values...
         if (l.isEmpty()) {
             continue;
-        } else if (l.startsWith("position=")) {
+        } else if (l.startsWith("//")) {
+            continue;
+        }else if (l.startsWith("position=")) {
             // split by = and then by ,
             l = l.split("=").last();
             QStringList list = l.split(",");
@@ -247,12 +255,20 @@ void Config::processSwarm(QTextStream& in) {
             // Adds a level to the swarmsList that can have multiple swarms appended to it
             saveSwarm(type, positions, move, shoot);
             levelCount += 1;
+            swarmCount = 0;
             QList<SwarmInfo> swarmList = {};
             swarmsList.append(swarmList);
             return;
         } else if (l.startsWith("[SWARM]")) {
-            processSwarm(in);
-            saveSwarm(type, positions, move, shoot);
+            if (swarmCount > 0) {
+                swarmCount++;
+                saveSwarm(type, positions, move, shoot);
+                processSwarm(in);
+            } else {
+                swarmCount++;
+                processSwarm(in);
+                saveSwarm(type, positions, move, shoot);
+            }
             return;
         } else {
             std::cout << "Incorrect key; check [SWARM] usage" << l.toStdString() << std::endl;

@@ -89,6 +89,7 @@ void GameDialog::pauseStart() {
         // start game
         this->paused = false;
         this->menu->displayMenu(paused);
+        paintMenu();
         this->timer->start(frames);
     } else {
         this->paused = true;
@@ -107,6 +108,26 @@ void GameDialog::setSpeed(QString speed) {
     } else if (QString::compare(speed, "chaos", Qt::CaseInsensitive) == 0) {
         this->frames = 10;
     }
+}
+
+void GameDialog::paintMenu() {
+    QPainter painter(this);
+
+    QString gameOver = "GAME OVER";
+    QString score = QString("SCORE: %1").arg(100);
+//    int killedAliens = m_numberOfAliens - m_swarm.getList().size();
+    int killedAliens = 100 - 50;
+    QString aliens = QString("ALIENS KILLED: %1").arg(killedAliens);
+
+    painter.setPen(Qt::yellow);
+    QFont font = QFont("Courier New");
+    font.setPixelSize(20);
+    font.bold();
+    painter.setFont(font);
+
+    painter.drawText(335, 280, gameOver);
+    painter.drawText(328, 320, score);
+    painter.drawText(290, 360, aliens);
 }
 
 void GameDialog::keyPressEvent(QKeyEvent* event) {
@@ -240,6 +261,9 @@ void GameDialog::nextFrame() {
         if (!manualControl && !mouseControl) {
             // Read ship controls from config
             QStringList instruct = c->get_instructs();
+            if (next_instruct >= instruct.size()) {
+                next_instruct = next_instruct % instruct.size();
+            }
             QString ins = instruct[next_instruct];
             next_instruct++;
 

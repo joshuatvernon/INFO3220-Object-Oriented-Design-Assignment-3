@@ -38,6 +38,9 @@ private:
     QLabel* topScoreLabel;
     QLabel* controlsLabel;
 
+    // Menu
+    void paintMenu();
+
     // Methods
     void revealPlayerScore(bool open);
 };

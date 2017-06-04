@@ -37,6 +37,7 @@ private:
     // Swarm Info Map
     QList<QList<SwarmInfo>> swarmsList = {};
     int levelCount;
+    int swarmCount;
 
     // default Alien values
     QStringList alienTypes;
