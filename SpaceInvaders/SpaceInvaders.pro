@@ -38,7 +38,10 @@ SOURCES += main.cpp\
     diagonalbullet.cpp \
     alienbuilder.cpp \
     hunter.cpp \
-    menu.cpp
+    menu.cpp \
+    shipStateFrozen.cpp \
+    shipStateNormal.cpp \
+    shipStateHyper.cpp
 
 HEADERS  += \
     base.h \
@@ -55,7 +58,11 @@ HEADERS  += \
     alienbuilder.h \
     hunter.h \
     menu.h \
-    alienbase.h
+    alienbase.h \
+    shipState.h \
+    shipStateFrozen.h \
+    shipStateNormal.h \
+    shipStateHyper.h
 
 FORMS    += dialog.ui
 

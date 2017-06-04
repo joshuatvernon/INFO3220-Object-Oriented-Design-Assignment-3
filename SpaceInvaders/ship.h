@@ -1,8 +1,13 @@
+#ifndef SHIP_H
+#define SHIP_H
+
 #pragma once
 #include "base.h"
 #include "bullet.h"
 #include "bulletbuilder.h"
+#include "shipState.h"
 #include <QPixmap>
+#include <QDebug>
 
 namespace game {
 
@@ -14,14 +19,36 @@ private:
     int bullet_velocity;
     BulletBuilder builder;
 
+    // Abstract State
+    ShipState* state;
+
+    // Concrete States
+    ShipState* normalState;
+    ShipState* frozenState;
+    ShipState* hyperState;
+
 public:
     Ship(QPixmap image, double scale, int x, int y);
-    Bullet* shoot();
+    QList<Bullet *> shoot();
     void move_left();
     void move_right();
     void move_up();
     void move_down();
 
+    // Getters
+    int get_velocity();
+    BulletBuilder get_builder();
+    ShipState* getNormalState();
+    ShipState* getFrozenState();
+    ShipState* getHyperState();
+
+    // Setters
+    void setNormalState(ShipState* state);
+    void setFrozenState(ShipState* state);
+    void setHyperState(ShipState* state);
+
     virtual ~Ship();
 };
 }
+
+#endif // SHIP_H

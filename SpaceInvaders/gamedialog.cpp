@@ -304,7 +304,7 @@ void GameDialog::nextFrame() {
             } else if (ins == "Right") {
                 ship->move_right();
             } else if (ins == "Shoot") {
-                bullets.push_back(this->ship->shoot());
+                addBullets(this->ship->shoot());
                 this->shipFiringSound.play();
             }
         } else if (manualControl) {
@@ -323,14 +323,14 @@ void GameDialog::nextFrame() {
                 ship->move_down();
             }
             if (ins.contains("Shoot")) {
-                bullets.push_back(this->ship->shoot());
+                addBullets(this->ship->shoot());
                 c->removeManualInstruction("Shoot");
                 this->shipFiringSound.play();
             }
         } else {
             QSet<QString> ins = c->getManualInstructions();
             if (ins.contains("Shoot")) {
-                bullets.push_back(this->ship->shoot());
+                addBullets(this->ship->shoot());
                 c->removeManualInstruction("Shoot");
                 this->shipFiringSound.play();
             }
@@ -395,7 +395,7 @@ void GameDialog::continueGame() {
     ship->set_y(700);
     frames = c->get_frames();
     this->timer->setInterval(frames);
-    this->timer->start();;
+    this->timer->start();
 }
 
 void GameDialog::newGame() {

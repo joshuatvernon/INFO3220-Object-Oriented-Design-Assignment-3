@@ -1,6 +1,9 @@
 #include "ship.h"
 #include "bullet.h"
 #include "config.h"
+#include "shipStateFrozen.h"
+#include "shipStateHyper.h"
+#include "shipStateNormal.h"
 
 namespace game {
 Ship::Ship(QPixmap image, double scale, int x, int y)
@@ -17,29 +20,76 @@ Ship::Ship(QPixmap image, double scale, int x, int y)
 
     set_x(x);
     set_y(y);
+
+    normalState = (ShipState*) new ShipStateNormal(this);
+    frozenState = (ShipState*) new ShipStateFrozen(this);
+    hyperState = (ShipState*) new ShipStateHyper(this);
+    state = normalState;
 }
 
 // A SHIP CAN MOVE LEFT, RIGHT AND SHOOT
-Bullet* Ship::shoot() {
-    return builder.build_bullet("laser");
+QList<Bullet*> Ship::shoot() {
+    return state->shoot();
 }
 
 // Setters
 void Ship::move_left() {
-    set_x(get_x() - velocity);
+    state->move_left();
 }
 
 void Ship::move_right() {
-    set_x(get_x() + velocity);
+    state->move_right();
 }
 
 void Ship::move_up() {
-    set_y(get_y() - velocity);
+    state->move_up();
 }
 
 void Ship::move_down()  {
-    set_y(get_y() + velocity);
+    state->move_down();
 }
 
-Ship::~Ship() {}
+// Getters
+
+int Ship::get_velocity() {
+    return this->velocity;
+}
+
+BulletBuilder Ship::get_builder() {
+    return builder;
+}
+
+ShipState* Ship::getNormalState() {
+    return this->normalState;
+}
+
+ShipState* Ship::getFrozenState() {
+    return this->normalState;
+}
+
+ShipState* Ship::getHyperState() {
+    return this->normalState;
+}
+
+// Setters
+
+void Ship::setNormalState(ShipState* state) {
+    this->state = state;
+}
+
+void Ship::setFrozenState(ShipState* state) {
+    this->state = state;
+}
+
+void Ship::setHyperState(ShipState* state) {
+    this->state = state;
+}
+
+Ship::~Ship() {
+    delete state;
+    delete normalState;
+    delete frozenState;
+    delete hyperState;
+}
+
 }
