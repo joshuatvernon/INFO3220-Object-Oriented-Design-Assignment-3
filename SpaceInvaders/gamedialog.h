@@ -36,6 +36,7 @@ protected:
     // keys
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
+    int level;
 
     // about the canvas
     int frames;

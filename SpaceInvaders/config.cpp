@@ -59,6 +59,10 @@ Config::Config() {
     QFile c_file("config.txt");
     c_file.open(QIODevice::ReadOnly);
 
+    QList<SwarmInfo> swarmList = {};
+    swarmsList.append(swarmList);
+    levelCount = 0;
+
     QTextStream in(&c_file);
     initDefault();
     // READ IN CONFIG FOR CUSTOM SETTINGS
@@ -67,13 +71,11 @@ Config::Config() {
         processShip(in);
     }
 
-    levelCount = 0;
-
     // set the scaled width and height!
     this->SCALEDWIDTH = WIDTH * this->scale;
     this->SCALEDHEIGHT = HEIGHT * this->scale;
     // scales the alien positions based on the scale.
-    scalePositions();
+    scalePositions()  ;
 }
 
 // loops through all the swarm info and edits positions.
@@ -211,7 +213,6 @@ void Config::processSwarm(QTextStream& in) {
 
     while (!in.atEnd()) {
         QString l = in.readLine().trimmed();
-        std::cout << l.toStdString() << std::endl;
         // make some default values...
         if (l.isEmpty()) {
             continue;
@@ -221,7 +222,6 @@ void Config::processSwarm(QTextStream& in) {
             QStringList list = l.split(",");
             // now we have a list like this: [10 20] , [30 40]; append if we have nums
             processPairs(list, positions);
-
         } else if (l.startsWith("type=")) {
             l = l.split("=").last();
             if (alienTypes.contains(l, Qt::CaseSensitive)) {
@@ -231,7 +231,6 @@ void Config::processSwarm(QTextStream& in) {
             l = l.split("=").last();
             QStringList list = l.split(",");
             processMoves(move, list);
-
         } else if (l.startsWith("shoot=")) {
             // check it's actually an int
             int number = l.split("=").last().toInt();
@@ -243,6 +242,13 @@ void Config::processSwarm(QTextStream& in) {
             // swarm info
             processShip(in);
             saveSwarm(type, positions, move, shoot);
+            return;
+        } else if (l.startsWith("[LEVEL]")) {
+            // Adds a level to the swarmsList that can have multiple swarms appended to it
+            saveSwarm(type, positions, move, shoot);
+            levelCount += 1;
+            QList<SwarmInfo> swarmList = {};
+            swarmsList.append(swarmList);
             return;
         } else if (l.startsWith("[SWARM]")) {
             processSwarm(in);
@@ -294,14 +300,19 @@ void Config::processPairs(QStringList list, QList<QPair<int, int>>& positions) {
     }
 }
 
-void Config::saveSwarm(
-        QString type, QList<QPair<int, int>> positions, QStringList move, int shoot) {
-    QList<SwarmInfo> swarmList = {};
+void Config::saveSwarm(QString type, QList<QPair<int, int>> positions, QStringList move, int shoot) {
     // only save swarm if there is at least 1 position!
     if (positions.size() > 0) {
-        swarmList.append(SwarmInfo(type, positions, move, shoot));
+        swarmsList[levelCount].append(SwarmInfo(type, positions, move, shoot));
     }
-    swarmsList.append(swarmList);
+}
+
+QList<SwarmInfo> Config::getSwarmList(int level) {
+    if (level > levelCount) {
+        QList<SwarmInfo> swarmList = {};
+        return swarmList;
+    }
+    return this->swarmsList.at(level);
 }
 
 // PROCESS CONFIG SIZE CHOICES
@@ -317,8 +328,7 @@ void Config::processConfigSizeLine(QString l) {
     if (Sizes.contains(l)) {
         scale = Sizes[l];
     } else {
-        std::cout << "M8 thats not how you fill out a config file. Size is now default"
-                  << std::endl;
+        std::cout << "M8 thats not how you fill out a config file. Size is now default" << std::endl;
         scale = 1;
     }
 }
@@ -343,20 +353,12 @@ int Config::get_frames() {
     return this->frames;
 }
 
-QList<SwarmInfo> Config::getSwarmList() {
-    return this->swarmsList.at(this->levelCount);
-}
-
 int Config::get_SCALEDWIDTH() {
     return this->SCALEDWIDTH;
 }
 
 int Config::get_SCALEDHEIGHT() {
     return this->SCALEDHEIGHT;
-}
-
-void Config::nextLevel() {
-    this->levelCount++;
 }
 
 }  // end namespace

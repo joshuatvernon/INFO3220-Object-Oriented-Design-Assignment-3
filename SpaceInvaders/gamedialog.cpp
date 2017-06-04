@@ -39,8 +39,11 @@ GameDialog::GameDialog(QWidget* parent)
     shipFiringSound.setSource(QUrl::fromLocalFile(":/Sounds/shoot.wav"));
     shipFiringSound.setVolume(0.3f);
 
+    // LEVEL
+    level = 0;
+
     // ALIENS
-    generateAliens(c->getSwarmList());
+    generateAliens(c->getSwarmList(level));
 
     // SET BACKGROUND
     setStyleSheet("background-color: #000000;");
@@ -157,8 +160,12 @@ void GameDialog::nextFrame() {
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {
-            c->nextLevel();
-            generateAliens(c->getSwarmList());
+            if (true) {
+                // if levels have run out, display menu
+            }
+
+            level++;
+            generateAliens(c->getSwarmList(level));
         }
         if (!manualControl) {
             // Read ship controls from config
