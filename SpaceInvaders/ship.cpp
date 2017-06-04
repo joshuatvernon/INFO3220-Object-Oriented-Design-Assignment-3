@@ -33,5 +33,13 @@ void Ship::move_right() {
     set_x(get_x() + velocity);
 }
 
+void Ship::move_up() {
+    set_y(get_y() - velocity);
+}
+
+void Ship::move_down()  {
+    set_y(get_y() + velocity);
+}
+
 Ship::~Ship() {}
 }

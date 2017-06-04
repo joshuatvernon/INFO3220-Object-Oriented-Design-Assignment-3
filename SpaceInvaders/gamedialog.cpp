@@ -18,6 +18,10 @@ namespace game {
 GameDialog::GameDialog(QWidget* parent)
         : QDialog(parent), bullets(), shipFiringSound(this), gameScore(0) {
     // SET UP GAME DIMENSIONS AND CONFIG
+
+    setMouseTracking(true);
+    mouseControl = false;
+
     c = Config::getInstance();
     SCALEDWIDTH = c->get_SCALEDWIDTH();
     SCALEDHEIGHT = c->get_SCALEDHEIGHT();
@@ -95,9 +99,16 @@ void GameDialog::pauseStart() {
 
 void GameDialog::keyPressEvent(QKeyEvent* event) {
     if (!manualControl) {
-        if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Space) {
+        if (event->key() == Qt::Key_Left || event->key() == Qt::Key_Right || event->key() == Qt::Key_Up || event->key() == Qt::Key_Down || event->key() == Qt::Key_Space) {
             // A control key has been pressed turn on manual control
-            manualControl = true;
+            if (mouseControl) {
+                if (event->key() != Qt::Key_Space) {
+                    manualControl = true;
+                    mouseControl = false;
+                }
+            } else {
+                manualControl = true;
+            }
         }
     }
     if (event->key() == Qt::Key_P) {
@@ -149,6 +160,17 @@ void GameDialog::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
+void GameDialog::mouseMoveEvent(QMouseEvent *event) {
+    if (!mouseControl) {
+        manualControl = false;
+        mouseControl = true;
+    } else {
+        QPoint pos = event->pos();
+        ship->set_x(pos.x());
+        ship->set_y(pos.y());
+    }
+}
+
 // shows this game score
 void GameDialog::showScore() {
     // in future, implement 'score list' in menu.
@@ -167,7 +189,7 @@ void GameDialog::nextFrame() {
             level++;
             generateAliens(c->getSwarmList(level));
         }
-        if (!manualControl) {
+        if (!manualControl && !mouseControl) {
             // Read ship controls from config
             QStringList instruct = c->get_instructs();
             QString ins = instruct[next_instruct];
@@ -181,7 +203,7 @@ void GameDialog::nextFrame() {
                 bullets.push_back(this->ship->shoot());
                 this->shipFiringSound.play();
             }
-        } else {
+        } else if (manualControl) {
             // Read ship controls from key commands
             QSet<QString> ins = c->getManualInstructions();
             if (ins.contains("Left")) {
@@ -190,6 +212,19 @@ void GameDialog::nextFrame() {
             if (ins.contains("Right")) {
                 ship->move_right();
             }
+            if (ins.contains("Up")) {
+                ship->move_up();
+            }
+            if (ins.contains("Down")) {
+                ship->move_down();
+            }
+            if (ins.contains("Shoot")) {
+                bullets.push_back(this->ship->shoot());
+                c->removeManualInstruction("Shoot");
+                this->shipFiringSound.play();
+            }
+        } else {
+            QSet<QString> ins = c->getManualInstructions();
             if (ins.contains("Shoot")) {
                 bullets.push_back(this->ship->shoot());
                 c->removeManualInstruction("Shoot");

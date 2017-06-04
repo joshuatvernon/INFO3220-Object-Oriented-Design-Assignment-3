@@ -26,6 +26,7 @@ protected:
     void updateBullets();
     void paintSwarm(QPainter& painter, AlienBase*& root);
     void checkSwarmCollisions(AlienBase*& root);
+
     // ship and swarms
     Ship* ship;
     std::vector<Bullet*> bullets;
@@ -33,10 +34,14 @@ protected:
     QSoundEffect shipFiringSound;
     int next_instruct;
 
-    // keys
+    // Key controls
     void keyPressEvent(QKeyEvent* event);
     void keyReleaseEvent(QKeyEvent* event);
     int level;
+
+    // Mouse tracking
+    void mouseMoveEvent(QMouseEvent *event);
+    bool mouseControl;
 
     // about the canvas
     int frames;
