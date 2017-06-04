@@ -12,18 +12,22 @@ namespace game {
 
 class Config {
 private:
-    // methods
     static Config* s_configInstance;
 
+    // Write to config
+    QString copyConfig(QTextStream& in);
+
+    // Read config
     void processShip(QTextStream& in);
     void processConfigSizeLine(QString l);
     void processInstructions(QStringList& instructs, QStringList& copy);
-
-//    void processSwarm(QTextStream& in);
+    void processScores(QTextStream& in);
+    void processSwarm(QTextStream& in);
     void processPairs(QStringList list, QList<QPair<int, int>>& positions);
     void processMoves(QStringList& move, QStringList& list);
     void saveSwarm(QString type, QList<QPair<int, int>> positions, QStringList move, int shoot);
     void scalePositions();
+
     // SHIP values
     QString name;  // this will be useful in Stage 3 ;)
     double scale;
@@ -48,6 +52,9 @@ private:
     // Manual Instructions
     QSet<QString> manualInstructions;
 
+    // High scores
+    QList<int> highScores;
+
     void initDefault();
 
 protected:
@@ -55,7 +62,7 @@ protected:
 
 public:
     // testing
-    void processSwarm(QTextStream& in);
+    void updateConfigScores(QList<int> scores);
 
     // AS THE CONFIG GIVES INPUT, THE FILE IS READ TO THEN SET ATTRIBUTES.
     // GETTERS
@@ -75,6 +82,8 @@ public:
     QStringList get_instructs();
     QList<SwarmInfo> getSwarmList(int level);
     int get_frames();
+    int numberOfLevels();
+    QList<int> getHighScores();
 
     int get_SCALEDWIDTH();
     int get_SCALEDHEIGHT();

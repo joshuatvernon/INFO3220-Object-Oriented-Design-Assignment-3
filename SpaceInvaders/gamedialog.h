@@ -71,6 +71,8 @@ protected:
 
     // score
     int gameScore;  // this run's score.
+    bool updateHighScores;
+    QList<int> highScores;
 public slots:
     void nextFrame();
     // menus

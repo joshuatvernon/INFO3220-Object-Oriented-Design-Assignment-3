@@ -26,6 +26,8 @@ GameDialog::GameDialog(QWidget* parent)
     SCALEDWIDTH = c->get_SCALEDWIDTH();
     SCALEDHEIGHT = c->get_SCALEDHEIGHT();
     this->frames = c->get_frames();
+    updateHighScores = true;
+    highScores = c->getHighScores();
 
     // MENU
     QList<QPair<QString, int>> dummy;
@@ -138,7 +140,7 @@ void GameDialog::keyPressEvent(QKeyEvent* event) {
             mouseControl = false;
         }
     }
-    if (event->key() == Qt::Key_P) {
+    if (event->key() == Qt::Key_Escape) {
         pauseStart();
     } else if (event->key() == Qt::Key_Left) {
         c->addManualInstruction("Left");
@@ -251,18 +253,21 @@ void GameDialog::nextFrame() {
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {
-            if (true) {
-                // if levels have run out, display menu
-            }
-
             level++;
             generateAliens(c->getSwarmList(level));
+            if (level > c->numberOfLevels() && updateHighScores) {
+                updateHighScores = false;
+                QList<int> scores = {1, 2, 3, 4, 5};
+                c->updateConfigScores(scores);
+            }
         }
         if (!manualControl && !mouseControl) {
             // Read ship controls from config
             QStringList instruct = c->get_instructs();
             if (next_instruct >= instruct.size()) {
                 next_instruct = next_instruct % instruct.size();
+            } else {
+
             }
             QString ins = instruct[next_instruct];
             next_instruct++;

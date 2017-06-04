@@ -57,13 +57,14 @@ Config* Config::s_configInstance = 0;
 
 Config::Config() {
     // GENERAL READING OF CONFIG FILE
-    QFile c_file("config.txt");
+    QFile c_file("config-test.txt");
     c_file.open(QIODevice::ReadOnly);
 
     QList<SwarmInfo> swarmList = {};
     swarmsList.append(swarmList);
     levelCount = 0;
     swarmCount = 0;
+    highScores = {};
 
     QTextStream in(&c_file);
     initDefault();
@@ -73,11 +74,58 @@ Config::Config() {
         processShip(in);
     }
 
+    c_file.close();
+
     // set the scaled width and height!
-    this->SCALEDWIDTH = WIDTH * this->scale;
-    this->SCALEDHEIGHT = HEIGHT * this->scale;
+//    this->SCALEDWIDTH = WIDTH * this->scale;
+//    this->SCALEDHEIGHT = HEIGHT * this->scale;
+    this->SCALEDWIDTH = WIDTH;
+    this->SCALEDHEIGHT = HEIGHT;
     // scales the alien positions based on the scale.
-    scalePositions()  ;
+    scalePositions();
+}
+
+int Config::numberOfLevels() {
+    return swarmsList.size();
+}
+
+// Copy config file without the previous top scores and return it as a string
+QString Config::copyConfig(QTextStream& in) {
+    QString configFile = "";
+    while (!in.atEnd()) {
+        QString l = in.readLine().trimmed();
+        if (!l.startsWith("[SCORES]") && !l.startsWith("scores=") && !l.isEmpty()) {
+            configFile.append(l + "\n");
+        }
+    }
+    return configFile;
+}
+
+// Add scores to the config file
+void Config::updateConfigScores(QList<int> scores) {
+
+    QString newConfig = "[SCORES]\n";
+    newConfig.append("scores=");
+    for (int i = 0; i < scores.size(); i++) {
+        newConfig.append(QString::number(scores.at(i)) + ",");
+
+    }
+    // remove last ',', add newline
+    newConfig.chop(1);
+    newConfig.append("\n");
+
+    QFile c_file("config-test.txt");
+    QTextStream in(&c_file);
+    c_file.open(QIODevice::ReadOnly);
+    QString prevConfig = copyConfig(in);
+    newConfig.append(prevConfig);
+    c_file.close();
+
+    // open file again in write mode and write the newConfig to it
+    c_file.open(QIODevice::WriteOnly);
+    QTextStream stream( &c_file );
+    stream << newConfig << endl;
+    c_file.close();
 }
 
 // loops through all the swarm info and edits positions.
@@ -98,9 +146,9 @@ Config::~Config() {
 // DEFAULT CONFIG SETTING
 void Config::initDefault() {
     scale = 1;
-    startpos = 150;
-    frames = 100;  // changed this to 100 because 1000 is super slow
-    defaultInstructs = "Shoot";
+    startpos = 450;
+    frames = 60;  // changed this to 100 because 1000 is super slow
+    defaultInstructs = "";
     instructs << defaultInstructs;
     name = "PLAY1";
 
@@ -127,8 +175,7 @@ Config* Config::getInstance() {
 // Process [SHIP] information
 void Config::processShip(QTextStream& in) {
     while (!in.atEnd()) {
-        QString l = in.readLine();
-        l = l.trimmed();
+        QString l = in.readLine().trimmed();
 
         if (l.isEmpty()) {
             continue;
@@ -149,7 +196,6 @@ void Config::processShip(QTextStream& in) {
                 name.chop(name.size() - NAME_LENGTH);
                 name = name.toUpper();
             }
-
         } else if (l.startsWith("instructions=")) {  // starts with movement INSTRUCTIONS
             l = l.split("=").last();
             QStringList copy = l.split(",");
@@ -166,15 +212,48 @@ void Config::processShip(QTextStream& in) {
             // reads a different header.
             swarmCount++;
             processSwarm(in);
-            return;  // we already have default settings for ship so it's okay to just
-                     // return
+            return;
         } else if (l.startsWith("[SHIP]")) {
             // ignore [SHIP] line
         } else if (l.startsWith("[LEVEL]")) {
             processSwarm(in);
             return;
-        }else {
+        } else if (l.startsWith("[SCORES]")) {
+            processScores(in);
+        } else {
             std::cout << "Incorrect key, check [SHIP] usage" << std::endl;
+            std::cout << "<" << l.toStdString() << ">" << std::endl;
+        }
+    }
+}
+
+void Config::processScores(QTextStream& in) {
+    while (!in.atEnd()) {
+        QString l = in.readLine().trimmed();
+        if (l.isEmpty()) {
+            continue;
+        } else if (l.startsWith("scores=")) {
+            l = l.split("=").last();
+            QStringList highScoreStrings = l.split(",");
+            for (int i = 0; i < highScoreStrings.size(); i++) {
+                highScores.append(highScoreStrings.at(i).toInt());
+            }
+            return;
+        } else if (l.startsWith("[SHIP]")) {
+            // reads the ship information, saves (possibly incomplete hence default)
+            // swarm info
+            processShip(in);
+            return;
+        } else if (l.startsWith("[LEVEL]")) {
+            processSwarm(in);
+            return;
+        } else if (l.startsWith("[SWARM]")) {
+            // reads a different header.
+            swarmCount++;
+            processSwarm(in);
+            return;
+        } else {
+            std::cout << "Incorrect key, check [SCORES] usage" << std::endl;
             std::cout << "<" << l.toStdString() << ">" << std::endl;
         }
     }
@@ -270,6 +349,8 @@ void Config::processSwarm(QTextStream& in) {
                 saveSwarm(type, positions, move, shoot);
             }
             return;
+        } else if (l.startsWith("[SCORES]")) {
+            processScores(in);
         } else {
             std::cout << "Incorrect key; check [SWARM] usage" << l.toStdString() << std::endl;
         }
@@ -375,6 +456,10 @@ int Config::get_SCALEDWIDTH() {
 
 int Config::get_SCALEDHEIGHT() {
     return this->SCALEDHEIGHT;
+}
+
+QList<int> Config::getHighScores() {
+    return highScores;
 }
 
 }  // end namespace
