@@ -41,6 +41,7 @@ public:
     ShipState* getNormalState();
     ShipState* getFrozenState();
     ShipState* getHyperState();
+    ShipState* getCurrentState();
 
     // Setters
     void setNormalState(ShipState* state);

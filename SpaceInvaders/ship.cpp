@@ -71,6 +71,10 @@ ShipState* Ship::getHyperState() {
     return this->normalState;
 }
 
+ShipState* Ship::getCurrentState() {
+    return this->state;
+}
+
 // Setters
 
 void Ship::setNormalState(ShipState* state) {

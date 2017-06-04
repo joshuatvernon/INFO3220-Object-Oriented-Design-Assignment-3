@@ -50,6 +50,9 @@ GameDialog::GameDialog(QWidget* parent)
     level = 0;
     lastLevel = false;
 
+    // Hyper support
+    hyperFuel = 0;
+
     // ALIENS
     generateAliens(c->getSwarmList(level));
 
@@ -274,6 +277,12 @@ void GameDialog::setWASDControls() {
 
 // FOLLOWING EACH INSTRUCTION TO FRAME - for PLAYER ship.
 void GameDialog::nextFrame() {
+    if (ship->getCurrentState() == ship->getHyperState()) {
+        // Ship is currently in hyper state!
+        qDebug() << "hyperFuel";
+        hyperFuel = hyperFuel < 1000 ? hyperFuel + 1 : hyperFuel;
+        menu->updateHyperFuel(hyperFuel);
+    }
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
         if (swarms->getAliens().size() == 0) {

@@ -65,6 +65,9 @@ protected:
     bool arrowManual;
     bool paused;
 
+    // Hyper state support
+    int hyperFuel;
+
     void setSpeed(QString speed);
 
     Menu* menu;

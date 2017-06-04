@@ -24,7 +24,7 @@ void ShipStateHyper::move_left() {
 }
 
 void ShipStateHyper::move_right() {
-    ship->set_x(ship->get_x() + (ship->get_velocity() * ));
+    ship->set_x(ship->get_x() + (ship->get_velocity() * 2));
 }
 
 void ShipStateHyper::move_up() {

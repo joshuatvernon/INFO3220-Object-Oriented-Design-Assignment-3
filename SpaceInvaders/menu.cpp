@@ -9,6 +9,7 @@ Menu::Menu(QWidget* parent, int& playerScore, QList<int> scores, QList<QString> 
         : gameScore(playerScore), arrowManual(arrow) {
     highScores = scores;
     highScoringPlayers = players;
+    int hyperFuel = 0;
 
     // Handle edge case where different amounts of scores or players are given
     while (highScores.size() < highScoringPlayers.size()) {
@@ -47,6 +48,70 @@ Menu::Menu(QWidget* parent, int& playerScore, QList<int> scores, QList<QString> 
     playerNameText = "Player 1 (me)";
 
     makeButtons(parent);
+    makeHyperfuelContainers(parent);
+}
+
+void Menu::makeHyperfuelContainers(QWidget* parent) {
+    hyperContainer = new QLabel(parent);
+    hyperContainer->setGeometry(QRect(300, 40, 200, 20));
+    hyperContainer->setVisible(true);
+    hyperContainer->setStyleSheet("background-color: #452C34");
+
+    hyperAlert = new QLabel(parent);
+    hyperAlert->setGeometry(QRect(300, 65, 200, 20));
+    hyperAlert->setText("              HYPER READY!!!");
+    hyperAlert->setVisible(true);
+    hyperAlert->setStyleSheet("font-weight: bold; color: white");
+
+    hyper1 = new QLabel(parent);
+    hyper1->setGeometry(QRect(302, 42, 16, 16));
+    hyper1->setVisible(false);
+    hyper1->setStyleSheet("background-color: #00FF1B");
+
+    hyper2 = new QLabel(parent);
+    hyper2->setGeometry(QRect(322, 42, 16, 16));
+    hyper2->setVisible(false);
+    hyper2->setStyleSheet("background-color: #00FF1B");
+
+    hyper3 = new QLabel(parent);
+    hyper3->setGeometry(QRect(342, 42, 16, 16));
+    hyper3->setVisible(false);
+    hyper3->setStyleSheet("background-color: #C7FF00");
+
+    hyper4 = new QLabel(parent);
+    hyper4->setGeometry(QRect(362, 42, 16, 16));
+    hyper4->setVisible(false);
+    hyper4->setStyleSheet("background-color: #C7FF00");
+
+    hyper5 = new QLabel(parent);
+    hyper5->setGeometry(QRect(382, 42, 16, 16));
+    hyper5->setVisible(false);
+    hyper5->setStyleSheet("background-color: #FF7E00");
+
+    hyper6 = new QLabel(parent);
+    hyper6->setGeometry(QRect(402, 42, 16, 16));
+    hyper6->setVisible(false);
+    hyper6->setStyleSheet("background-color: #FF7E00");
+
+    hyper7 = new QLabel(parent);
+    hyper7->setGeometry(QRect(422, 42, 16, 16));
+    hyper7->setVisible(false);
+    hyper7->setStyleSheet("background-color: #FF410B");
+
+    hyper8 = new QLabel(parent);
+    hyper8->setGeometry(QRect(442, 42, 16, 16));
+    hyper8->setVisible(false);
+    hyper8->setStyleSheet("background-color: #FF410B");
+
+    hyper9 = new QLabel(parent);
+    hyper9->setGeometry(QRect(462, 42, 16, 16));
+    hyper9->setVisible(false);
+    hyper9->setStyleSheet("background-color: #FF0000");
+
+    hyper10 = new QLabel(parent);
+    hyper10->setGeometry(QRect(482, 42, 16, 16));
+    hyper10->setVisible(false);
+    hyper10->setStyleSheet("background-color: #FF0000");
 }
 
 void Menu::setName(QString name) {
@@ -89,6 +154,17 @@ Menu::~Menu() {
     delete quitGameBtn;
     delete newGameBtn;
     delete continueBtn;
+    delete hyperContainer;
+    delete hyper1;
+    delete hyper2;
+    delete hyper3;
+    delete hyper4;
+    delete hyper5;
+    delete hyper6;
+    delete hyper7;
+    delete hyper8;
+    delete hyper9;
+    delete hyper10;
 }
 
 void Menu::makeButtons(QWidget* parent) {
@@ -744,6 +820,62 @@ void Menu::winner() {
 void Menu::loser() {
     gameOverTitle->setText("     Game Over");
     gameOverTitle->setStyleSheet("background-color: #DD231D");
+}
+
+void Menu::updateHyperFuel(int newHyperFuel) {
+    this->hyperFuel = newHyperFuel;
+    if (this->hyperFuel >= 100) {
+        hyper1->setVisible(true);
+    } else {
+        hyper1->setVisible(false);
+    }
+    if (this->hyperFuel >= 200) {
+        hyper2->setVisible(true);
+    } else {
+        hyper2->setVisible(false);
+    }
+    if (this->hyperFuel >= 300) {
+        hyper3->setVisible(true);
+    } else {
+        hyper3->setVisible(false);
+    }
+    if (this->hyperFuel >= 400) {
+        hyper4->setVisible(true);
+    } else {
+        hyper4->setVisible(false);
+    }
+    if (this->hyperFuel >= 500) {
+        hyper5->setVisible(true);
+    } else {
+        hyper5->setVisible(false);
+    }
+    if (this->hyperFuel >= 600) {
+        hyper6->setVisible(true);
+    } else {
+        hyper6->setVisible(false);
+    }
+    if (this->hyperFuel >= 700) {
+        hyper7->setVisible(true);
+    } else {
+        hyper7->setVisible(false);
+    }
+    if (this->hyperFuel >= 800) {
+        hyper8->setVisible(true);
+    } else {
+        hyper8->setVisible(false);
+    }
+    if (this->hyperFuel >= 900) {
+        hyper9->setVisible(true);
+    } else {
+        hyper9->setVisible(false);
+    }
+    if (this->hyperFuel >= 1000) {
+        hyper10->setVisible(true);
+        hyperAlert->setVisible(true);
+    } else {
+        hyper10->setVisible(false);
+        hyperAlert->setVisible(false);
+    }
 }
 
 }

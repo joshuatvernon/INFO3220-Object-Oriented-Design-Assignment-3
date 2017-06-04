@@ -21,12 +21,29 @@ public:
     void winner();
     void loser();
     void setName(QString name);
+    void updateHyperFuel(int newHyperFuel);
 
 private:
     void makeButtons(QWidget* parent);
     void closeButtons();  // if any buttons are left open, close them
     int& gameScore;
     bool& arrowManual;
+
+    // Hyperfuel
+    int hyperFuel;
+    QLabel* hyperContainer;
+    QLabel* hyperAlert;
+    QLabel* hyper1;
+    QLabel* hyper2;
+    QLabel* hyper3;
+    QLabel* hyper4;
+    QLabel* hyper5;
+    QLabel* hyper6;
+    QLabel* hyper7;
+    QLabel* hyper8;
+    QLabel* hyper9;
+    QLabel* hyper10;
+    void makeHyperfuelContainers(QWidget* parent);
 
     // High scores
      QList<int> highScores;

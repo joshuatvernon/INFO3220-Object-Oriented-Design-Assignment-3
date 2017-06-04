@@ -1,6 +1,6 @@
 [SCORES]
 scores=120,71,71,71,71
-players=GOKU,TRUNKS,JOSHUA,BIGBOI,TRUNKS 
+players=GOKU,JOSHUA,BIGBOI,TRUNKS,TRUNKS
 [SHIP]
 size=Tiny
 name=Trunks
