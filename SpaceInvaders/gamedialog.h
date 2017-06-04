@@ -67,8 +67,6 @@ protected:
 
     void setSpeed(QString speed);
 
-    void pressLevels();
-
     Menu* menu;
     Config* c;
 

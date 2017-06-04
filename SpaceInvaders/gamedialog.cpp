@@ -9,7 +9,7 @@
 #include <QTimer>
 #include <QWidget>
 #include <vector>
-
+#include <QInputDialog>
 #include <iostream>
 #include <string.h>
 
@@ -32,7 +32,7 @@ GameDialog::GameDialog(QWidget* parent)
     highScoringPlayers = c->getHighScoringPlayers();
 
     // MENU
-    menu = new Menu(this, c->get_name(), this->gameScore, highScores, highScoringPlayers, this->arrowManual);
+    menu = new Menu(this, this->gameScore, highScores, highScoringPlayers, this->arrowManual);
 
     // EXTENSION STAGE 1 PART 1 - RESCALE GAME SCREEN FOR SHIP SIZE
     this->setFixedWidth(SCALEDWIDTH);
@@ -58,6 +58,14 @@ GameDialog::GameDialog(QWidget* parent)
 
     // MENU
     paused = false;
+
+    bool setNewName;
+    QString text = QInputDialog::getText(this, tr("QInputDialog::getText()"), tr("User Name:"), QLineEdit::Normal, c->get_name(), &setNewName);
+    if (setNewName) {
+        c->set_name(text);
+    }
+    c->set_name(c->get_name().toUpper() + " (me)");
+    menu->setName(c->get_name());
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(nextFrame()));
@@ -242,10 +250,6 @@ void GameDialog::pressChaos() {
 
 void GameDialog::pressControls() {
     menu->toggleDisplayControls();
-}
-
-void GameDialog::pressLevels() {
-    menu->toggleDisplayLevels();
 }
 
 void GameDialog::setArrowControls() {

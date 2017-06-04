@@ -70,6 +70,7 @@ public:
     static Config* getInstance();
     ~Config();
     QString get_name();
+    void set_name(QString name);
 
     // Suppot for manual instructions
     QSet<QString> getManualInstructions();

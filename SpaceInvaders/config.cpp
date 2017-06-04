@@ -201,7 +201,7 @@ void Config::processShip(QTextStream& in) {
             if (l.length() != 0) {
                 name = l.split("=").last();  // name can be anything, up to 6 char long.
                 name.chop(name.size() - NAME_LENGTH);
-                name = name.toUpper() + " (me)";
+                name = name.toUpper();
             }
         } else if (l.startsWith("instructions=")) {  // starts with movement INSTRUCTIONS
             l = l.split("=").last();
@@ -441,6 +441,11 @@ void Config::processConfigSizeLine(QString l) {
         std::cout << "M8 thats not how you fill out a config file. Size is now default" << std::endl;
         scale = 1;
     }
+}
+
+// Setters
+void Config::set_name(QString name) {
+    this->name = name;
 }
 
 // Getters

@@ -6,13 +6,12 @@
 namespace game {
 class Menu {
 public:
-    Menu(QWidget* parent, QString name, int& playeScore, QList<int> scores, QList<QString> players, bool& arrow);
+    Menu(QWidget* parent, int& playeScore, QList<int> scores, QList<QString> players, bool& arrow);
     ~Menu();
     void displayMenu(bool paused);
     void openScore();
     void toggleDisplaySpeeds();
     void toggleDisplayControls();
-    void toggleDisplayLevels();
     void updateTopScores();
     QList<int> getHighScores();
     QList<QString> getHighScoringPlayers();
@@ -21,6 +20,7 @@ public:
     void newGame();
     void winner();
     void loser();
+    void setName(QString name);
 
 private:
     void makeButtons(QWidget* parent);
