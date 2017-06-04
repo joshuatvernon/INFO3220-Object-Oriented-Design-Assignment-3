@@ -54,6 +54,7 @@ private:
 
     // High scores
     QList<int> highScores;
+    QList<QString> highScoringPlayers;
 
     void initDefault();
 
@@ -84,6 +85,7 @@ public:
     int get_frames();
     int numberOfLevels();
     QList<int> getHighScores();
+    QList<QString> getHighScoringPlayers();
 
     int get_SCALEDWIDTH();
     int get_SCALEDHEIGHT();

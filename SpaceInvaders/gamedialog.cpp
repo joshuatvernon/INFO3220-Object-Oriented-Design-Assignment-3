@@ -28,10 +28,10 @@ GameDialog::GameDialog(QWidget* parent)
     this->frames = c->get_frames();
     updateHighScores = true;
     highScores = c->getHighScores();
+    highScoringPlayers = c->getHighScoringPlayers();
 
     // MENU
-    QList<QPair<QString, int>> dummy;
-    menu = new Menu(this, c->get_name(), this->gameScore, dummy);
+    menu = new Menu(this, c->get_name(), this->gameScore, highScores, highScoringPlayers);
 
     // EXTENSION STAGE 1 PART 1 - RESCALE GAME SCREEN FOR SHIP SIZE
     this->setFixedWidth(SCALEDWIDTH);
@@ -197,7 +197,9 @@ void GameDialog::mouseMoveEvent(QMouseEvent *event) {
         } else {
             QPoint pos = event->pos();
             ship->set_x(pos.x());
-            ship->set_y(pos.y());
+            if (pos.y() > 350) {
+                ship->set_y(pos.y());
+            }
         }
     }
 }

@@ -238,7 +238,9 @@ void Config::processScores(QTextStream& in) {
             for (int i = 0; i < highScoreStrings.size(); i++) {
                 highScores.append(highScoreStrings.at(i).toInt());
             }
-            return;
+        } else if (l.startsWith("players=")) {
+            l = l.split("=").last();
+            highScoringPlayers = l.split(",");
         } else if (l.startsWith("[SHIP]")) {
             // reads the ship information, saves (possibly incomplete hence default)
             // swarm info
@@ -460,6 +462,10 @@ int Config::get_SCALEDHEIGHT() {
 
 QList<int> Config::getHighScores() {
     return highScores;
+}
+
+QList<QString> Config::getHighScoringPlayers() {
+    return highScoringPlayers;
 }
 
 }  // end namespace

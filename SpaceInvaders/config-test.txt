@@ -1,5 +1,6 @@
 [SCORES]
 scores=1,2,3,4,5
+players=Goku,Vegeta,King Kai,Krillin,Bulma
 [SHIP]
 size=Tiny
 name=Bobbetta

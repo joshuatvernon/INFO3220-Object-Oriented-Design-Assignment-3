@@ -73,6 +73,7 @@ protected:
     int gameScore;  // this run's score.
     bool updateHighScores;
     QList<int> highScores;
+    QList<QString> highScoringPlayers;
 public slots:
     void nextFrame();
     // menus
