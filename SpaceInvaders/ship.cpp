@@ -88,16 +88,18 @@ void Ship::setState(ShipState* newState) {
     if (getCurrentState() == "Frozen") {
         QPixmap ship;
         ship.load(":/Images/frozenship.png");
-        set_image(ship);
+        set_image(ship.scaledToWidth(ship.width() * get_scale()));
     } else if (getCurrentState() == "Normal") {
         QPixmap ship;
         ship.load(":/Images/ship.png");
-        set_image(ship);
+        set_image(ship.scaledToWidth(ship.width() * get_scale()));
     } else {
         QPixmap ship;
         ship.load(":/Images/hypership.png");
-        set_image(ship);
+        set_image(ship.scaledToWidth(ship.width() * get_scale()));
     }
+    boundaryX = Config::getInstance()->get_SCALEDWIDTH() - this->get_image().width();
+    boundaryY = Config::getInstance()->get_SCALEDHEIGHT() - this->get_image().height();
 }
 
 Ship::~Ship() {
