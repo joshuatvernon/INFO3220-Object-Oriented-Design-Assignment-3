@@ -1,6 +1,6 @@
 [SCORES]
 scores=62,60,0,0,0
-players=TRUNKS ,TRUNKS,NONE,NONE,NONE
+players=TRUNKS,TRUNKS,NONE,NONE,NONE
 [SHIP]
 size=Tiny
 name=Trunks

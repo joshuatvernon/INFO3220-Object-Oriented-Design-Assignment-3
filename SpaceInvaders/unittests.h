@@ -15,6 +15,7 @@ public:
     ~UnitTests() {}
 
     // tests
+    void scoreIncreases();
     void testKeyPressEvents();
     void testSwarms();
     void testShipStates();

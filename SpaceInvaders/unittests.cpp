@@ -4,6 +4,10 @@ namespace game {
 //// DEFAULT UnitTests constructor
 UnitTests::UnitTests() {}
 
+void UnitTests::scoreIncreases() {
+
+}
+
 void UnitTests::testKeyPressEvents() {
     qDebug() << "";
 }

@@ -5,6 +5,7 @@
 #include "ship.h"
 #include "swarm.h"
 #include "swarminfo.h"
+#include "unittests.h"
 #include <QDialog>
 #include <QSoundEffect>
 #include <QWidget>
@@ -20,6 +21,9 @@ public:
     virtual ~GameDialog();
 
 protected:
+    // UnitTests
+    UnitTests* tester;
+
     QTimer* timer;
     void paintEvent(QPaintEvent* event);
     void paintBullets(QPainter& painter);

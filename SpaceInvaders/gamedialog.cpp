@@ -22,6 +22,7 @@ GameDialog::GameDialog(QWidget* parent)
     setMouseTracking(true);
     mouseControl = false;
     arrowManual = true;
+    tester = new UnitTests();
 
     c = Config::getInstance();
     SCALEDWIDTH = c->get_SCALEDWIDTH();
@@ -83,6 +84,7 @@ GameDialog::GameDialog(QWidget* parent)
 GameDialog::~GameDialog() {
     delete ship;
     delete timer;  // optional, don't have to do this apparently
+    delete tester;
 
     // loop though swarms to delete aliens
     delete swarms;  // recursively deletes itself.
