@@ -462,7 +462,7 @@ void GameDialog::newGame() {
     ship->set_y(700);
     frames = c->get_frames();
     this->timer->setInterval(frames);
-    this->timer->start();;
+    this->timer->start();
 }
 
 void GameDialog::closeGame() {
