@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     shipStateFrozen.cpp \
     shipStateNormal.cpp \
     shipStateHyper.cpp \
-    shipStateDead.cpp
+    shipStateDead.cpp \
+    unittests.cpp
 
 HEADERS  += \
     base.h \
@@ -64,7 +65,8 @@ HEADERS  += \
     shipStateFrozen.h \
     shipStateNormal.h \
     shipStateHyper.h \
-    shipStateDead.h
+    shipStateDead.h \
+    unittests.h
 
 FORMS    += dialog.ui
 

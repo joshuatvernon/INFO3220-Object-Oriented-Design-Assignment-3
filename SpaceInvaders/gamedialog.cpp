@@ -313,7 +313,7 @@ void GameDialog::nextFrame() {
     menu->updateHyperFuel(hyperFuel);
     if (!paused) {
         // Check if all aliens are killed -- if true, update level
-        if (swarms->getAliens().size() == 0) {
+        if (swarms->getAliens().size() == 0 && (manualControl || mouseControl)) {
             if (!lastLevel) {
                 level++;
             }

@@ -1,0 +1,21 @@
+[SHIP]
+size=Tiny
+name=Trunks
+x=350
+instructions=Left,Right,Left,Left,Left,Left,Left,Right,Right,Right,Right,Right,Shoot
+frames=60
+[SWARM]
+position=100 1s00, 200, 100, 300 100, 400 100, 500 100, 100 300, 200 300, 300 300, 400 300, 500 300
+type=
+move=L,U,L,DL,R,R,R,R,R,R,R,R,R,R,R,R,L,R,L,R,L,L,R,R,R,L,L,R,R,R,R,R,L,L,R,R,L,L,L
+shoot=2
+[SWARM]
+position=200 100, 1000 100
+type=hunter
+move=
+shoot=3
+[SWARM]
+position=200 50
+type=dumb
+move=L,R,L,L,R,L,R,L,R,L,R,L
+shoot=300a00

@@ -1,0 +1,6 @@
+[SHIP]
+size=Tiny
+name=Trunks
+x=350
+instructions=Left,Right,Left,Left,Left,Left,Left,Right,Right,Right,Right,Right,Shoot
+frames=60

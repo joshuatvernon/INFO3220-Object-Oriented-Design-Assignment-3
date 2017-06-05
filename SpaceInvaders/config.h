@@ -57,6 +57,7 @@ private:
     QList<QString> highScoringPlayers;
 
     void initDefault();
+    bool automaticInstructions;
 
 protected:
     Config();

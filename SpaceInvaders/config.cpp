@@ -65,6 +65,7 @@ Config::Config() {
     levelCount = 0;
     swarmCount = 0;
     highScores = {};
+    automaticInstructions = false;
 
     QTextStream in(&c_file);
     initDefault();
@@ -103,6 +104,9 @@ QString Config::copyConfig(QTextStream& in) {
 
 // Add scores to the config file
 void Config::updateConfigScores(QList<int> scores, QList<QString> players) {
+    if (automaticInstructions) {
+        return;
+    }
     QString newConfig = "[SCORES]\n";
     newConfig.append("scores=");
     for (int i = 0; i < scores.size(); i++) {
@@ -204,10 +208,11 @@ void Config::processShip(QTextStream& in) {
                 name = name.toUpper();
             }
         } else if (l.startsWith("instructions=")) {  // starts with movement INSTRUCTIONS
+            automaticInstructions = true;
             l = l.split("=").last();
+            qDebug() << l;
             QStringList copy = l.split(",");
             processInstructions(instructs, copy);
-
         } else if (l.startsWith("frames=")) {
             // CUSTOMISE USER EXPERIENCE BY SETTING CUSTOM FRAMES PER SECOND
             l = l.split("=").last();
