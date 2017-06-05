@@ -226,10 +226,12 @@ void GameDialog::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void GameDialog::mousePressEvent(QMouseEvent *event) {
+    Q_UNUSED(event);
     c->addManualInstruction("Shoot");
 }
 
 void GameDialog::mouseReleaseEvent(QMouseEvent *event) {
+    Q_UNUSED(event);
     c->removeManualInstruction("Shoot");
 }
 

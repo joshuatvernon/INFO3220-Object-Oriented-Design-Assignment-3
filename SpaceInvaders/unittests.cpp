@@ -5,7 +5,7 @@ namespace game {
 UnitTests::UnitTests() {}
 
 void UnitTests::scoreIncreases() {
-
+    qDebug() << "";
 }
 
 void UnitTests::testKeyPressEvents() {
