@@ -453,7 +453,8 @@ void GameDialog::newGame() {
     this->bullets.clear();
     this->paused = false;
     generateAliens(c->getSwarmList(0));
-    level = 1;
+    lastLevel = false;
+    level = 0;
     gameScore = 0;
     frozenCountdown = 0;
     hyperFuel = 0;
